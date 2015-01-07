@@ -1,0 +1,34 @@
+<div class="container">
+	<form ng-submit="setForm()" ng-controller="MarcadoCtrl">
+		<div class="form-group row">
+			<div class="col-md-3">
+				<select name="" id=""  class="form-control input-lg" ng-model="formulario.regional">
+					<option value="">Regional</option>
+					<option value="1">Regional_1</option>
+					<option value="2">Regional_2</option>
+					<option value="3">Regional_3</option>
+				</select>
+			</div>
+			<div class="col-md-3">
+				<select name="" id=""  class="form-control input-lg" ng-model="formulario.cde">
+					<option value="">CDE</option>
+					<option value="1">CDE_1</option>
+					<option value="2">CDE_2</option>
+					<option value="3">CDE_3</option>
+				</select>
+			</div>
+
+			<ls-datalist class="col-md-5" placeholder="Codigo o nombre del asesor" lsmodel="formulario" value="codigo" option="nombre"></ls-datalist>
+			
+			<div class="col-md-8 col-md-offset-2" style="margin-top: 130px">
+				<input type="password" class="form-control input-lg text-center" ng-model="formulario.password">
+			</div>
+			
+			<div class="col-md-2 col-md-offset-5" style="margin-top: 10px">
+				<button type="submit" class="btn btn-default btn-lg btn-block">Validar</button>
+			</div>
+			
+		</div>
+	</form>
+
+</div>
