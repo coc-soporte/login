@@ -1,0 +1,16 @@
+{
+  "name": "login",
+  "description": "skynet",
+  "version": "0.0.1",
+  "author": "Lennin Suescun",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "license": {
+    "type": "MIT",
+  },
+  "dependencies": {
+    "express": "~4.10.6",
+    "mysql": "~2.5.4",
+  }
+}
