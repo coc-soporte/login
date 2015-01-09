@@ -1,9 +1,12 @@
 [
-	{"nombre": "anibal", "codigo": "ls12345"},
-	{"nombre": "benita", "codigo": "ls333"},
-	{"nombre": "ceresa", "codigo": "ls4576"},
-	{"nombre": "danilo", "codigo": "ls12343245"},
-	{"nombre": "manuela", "codigo": "ls1243543345"},
-	{"nombre": "petro", "codigo": "ls12345"},
-	{"nombre": "francisco", "codigo": "ls12345"}
+	{"nombre": "087 TIGO OCEAN MALL 2", "ip": "10.75.12.251"},
+	{"nombre": "088 TIGO BUENAVISTA SANTA MARTA", "ip": "10.75.64.250"},
+	{"nombre": "058 TIGO MAGANGUE", "ip": "10.75.10.250"},
+	{"nombre": "059 TIGO SAN ANDRES", "ip": "10.81.34.103"},
+	{"nombre": "089 TIGO SAN SILVESTRE", "ip": "10.77.18.250"},
+	{"nombre": "090 TIGO DE LA CUESTA", "ip": "10.77.20.250"},
+	{"nombre": "093 TIGO CENTRO BOGOTA", "ip": "10.81.16.250"},
+	{"nombre": "006 TIGO CRA 54", "ip": "10.75.16.253"},
+	{"nombre": "006 TIGO BUENAVISTA", "ip": "10.75.30.242"},
+	{"nombre": "053 TIGO CENTRO BUCARAMANGA", "ip": "10.77.2.250"}
 ]

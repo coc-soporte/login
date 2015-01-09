@@ -16,7 +16,7 @@ angular.module('components', [])
 			scope.seleccionar = function(seleccion){
 
 				scope.seleccionado = seleccion;
-				console.log(scope);
+				//console.log(scope);
 				scope[attrs.lsmodel][attrs.option] = seleccion[attrs.value];
 
 				scope.busqueda = "";

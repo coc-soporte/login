@@ -1,34 +1,56 @@
-<div class="container">
-	<form ng-submit="setForm()" ng-controller="MarcadoCtrl">
-		<div class="form-group row">
-			<div class="col-md-3">
-				<select name="" id=""  class="form-control input-lg" ng-model="formulario.regional">
-					<option value="">Regional</option>
-					<option value="1">Regional_1</option>
-					<option value="2">Regional_2</option>
-					<option value="3">Regional_3</option>
-				</select>
-			</div>
-			<div class="col-md-3">
-				<select name="" id=""  class="form-control input-lg" ng-model="formulario.cde">
-					<option value="">CDE</option>
-					<option value="1">CDE_1</option>
-					<option value="2">CDE_2</option>
-					<option value="3">CDE_3</option>
-				</select>
-			</div>
+<div ng-show="1">
+		<form ng-submit="setLoginForm()">
+			<div class="form-group" style="padding-top: 35px;">
 
-			<ls-datalist class="col-md-5" placeholder="Codigo o nombre del asesor" lsmodel="formulario" value="codigo" option="nombre"></ls-datalist>
-			
-			<div class="col-md-8 col-md-offset-2" style="margin-top: 130px">
-				<input type="password" class="form-control input-lg text-center" ng-model="formulario.password">
-			</div>
-			
-			<div class="col-md-2 col-md-offset-5" style="margin-top: 10px">
-				<button type="submit" class="btn btn-default btn-lg btn-block">Validar</button>
-			</div>
-			
-		</div>
-	</form>
+				<div class="col-md-4 col-md-offset-4">
+					<div class="row">
+						<ls-datalist class="col-md-12" placeholder="Escriba aqui su CDE" lsmodel="formulario" value="nombre" option="cde">
+						</ls-datalist>
+					</div>
+				</div>
 
-</div>
+				<div ng-show="1">
+					<div class="col-md-4 col-md-offset-4" style="margin-top: 20px">
+						<input type="text" ng-model="formulario.user" class="form-control input-lg input-lg text-center" placeholder="Usuario" required>
+					</div>
+			
+					<div class="col-md-4 col-md-offset-4" style="margin-top: 20px">
+						<input type="password" placeholder="Contraseña" ng-model="formulario.pass" class="form-control input-lg input-lg text-center" ng-model="password" required>
+					</div>
+				</div>
+				
+				<div class="col-md-4 col-md-offset-4" style="margin-top: 10px">
+					<button ng-disabled="disableBotonSubmit" type="submit" class="btn btn-lg btn-block btn-success">
+						<span ng-hide="disableBotonSubmit">Ingresar</span>
+						<i ng-show="disableBotonSubmit" class="fa fa-spinner fa-spin"></i>
+					</button>
+				</div>
+				
+			</div>
+			<div class="alert alert-danger col-md-4 col-md-offset-4" ng-show="alert.cde" role="alert">Selecciona un CDE</div>
+			<div class="alert alert-danger col-md-4 col-md-offset-4" ng-show="alert.datosMal" role="alert">
+				<strong>Datos Incorrectos ingresados.</strong>
+			</div>
+		</form>
+
+		<form ng-submit="setLoginKey()">
+			<div ng-show="1">
+				<div class="col-md-4 col-md-offset-4" style="margin-top: 20px">
+					<input type="type" placeholder="Clave de SMS" ng-model="formulario.key" class="form-control input-lg input-lg text-center" required>
+				</div>
+
+				<div class="col-md-4 col-md-offset-4" style="margin-top: 10px">
+					<button ng-disabled="disableBotonSubmitKey" type="submit" class="btn btn-lg btn-block btn-success">
+						<span ng-hide="disableBotonSubmitKey">Validar Clave</span>
+						<i ng-show="disableBotonSubmitKey" class="fa fa-spinner fa-spin"></i>
+					</button>
+					<div class="alert alert-danger" ng-show="alert.cde" role="alert" style="margin: 2%">
+						Clave incorrecta
+					</div>
+					<div style="padding: 2%" class="text-right">
+						<a href="" class="text-danger"><i class="fa fa-times"></i> Cancelar</a>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>

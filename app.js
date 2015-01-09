@@ -1,33 +1,13 @@
 var express = require('express');
-var mysql = require('mysql');
+//var mysql = require('mysql');
 
 var app = express();
 app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/bower_components'));
 
 
-//----------------------------------------------
-var connection = mysql.createConnection({
-  host     : '10.66.6.240',
-  user     : 'ricardo',
-  password : 'ricardo'
-});
-var consulta = [];
-
-function getQuery(){
-
-}
-//----------------------------------------------
-
-app.get('/query', function(req, res){	
-	//connection.connect();
-	connection.query("SELECT * FROM gtr.infocde WHERE REGION = 'CENTRO'", function(err, rows, fields) {
-	  	if (err) throw err;
-	  	res.json(rows);
-	});
-
-	//connection.end();	
-});
-
+var rutasLogin = require('./routes/rutasLogin');
+app.use('/login', rutasLogin);
 
 app.listen(3000, function(){
 	console.log('Listen on Port 3000');

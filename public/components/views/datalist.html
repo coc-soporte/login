@@ -12,10 +12,13 @@
 <div class="">
 	<div class="input-lg form-control" style="padding: 6px 12px;">
 	
-		<button class="btn btn-primary" type="button" ng-hide="showSeleccion">
-			{{seleccionado.nombre}} <span class="badge" ng-click="desSeleccionar()"><i class="fa fa-times"></i></span>
-		</button>
-		
+		<div class="btn btn-primary" type="button" ng-hide="showSeleccion">
+			{{seleccionado.nombre}}
+			<div class="badge"  ng-hide="showSeleccion" ng-click="desSeleccionar()">
+				<i class="fa fa-times"></i>
+			</div>
+		</div>
+	
 		<input type="text" class="input-none" name="" id="" ng-model="busqueda" placeholder="{{placeholder}}" ng-focus="focus=true">
 	</div>
 </div>
