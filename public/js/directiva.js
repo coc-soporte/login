@@ -11,12 +11,13 @@ angular.module('components', [])
 			scope.placeholder = attrs.placeholder;
 			scope.showSeleccion = true;
 			scope.focus = false;
+			scope.nombreDatalist = attrs.option;
 
 			//console.log(showSeleccion);
 			scope.seleccionar = function(seleccion){
 
 				scope.seleccionado = seleccion;
-				//console.log(scope);
+				//console.log(scope.seleccionado);
 				scope[attrs.lsmodel][attrs.option] = seleccion[attrs.value];
 
 				scope.busqueda = "";

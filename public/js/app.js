@@ -10,14 +10,19 @@
  */
 angular
 	.module('marcado', [
-		'components',
 		'ngRoute',
+		'loginServices',
+		'components'
 	])
 	.config(function ($routeProvider) {
 		$routeProvider
 			.when('/', {
 				templateUrl: 'views/marcado.html',
 				controller: 'MarcadoCtrl'
+			})
+			.when('/test', {
+				templateUrl: 'views/test.html',
+				controller: 'testServiceCtrl'
 			})
 			.otherwise({
 				redirectTo: '/'

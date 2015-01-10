@@ -13,7 +13,7 @@
 	<div class="input-lg form-control" style="padding: 6px 12px;">
 	
 		<div class="btn btn-primary" type="button" ng-hide="showSeleccion">
-			{{seleccionado.nombre}}
+			{{seleccionado[nombreDatalist]}}
 			<div class="badge"  ng-hide="showSeleccion" ng-click="desSeleccionar()">
 				<i class="fa fa-times"></i>
 			</div>
@@ -25,6 +25,6 @@
 
 <div class="row" ng-show="focus">
 	<div class="list-group" style="z-index:100; position: absolute; width: 100%; padding-right: 15px;padding-left: 15px;">
-		<a href="" ng-click="seleccionar(asesor)" class="list-group-item" ng-repeat="asesor in asesores | filter: busqueda | limitTo: 10">{{asesor.nombre}}</a>		
+		<a href="" ng-click="seleccionar(asesor)" class="list-group-item" ng-repeat="asesor in datas | filter: busqueda | limitTo: 10">{{asesor[nombreDatalist]}}</a>		
 	</div>
 </div>

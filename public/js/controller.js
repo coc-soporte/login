@@ -4,25 +4,25 @@
  * @name lenninlasd@gmail.com 
  */
  angular.module('marcado')
- .controller('MarcadoCtrl', ['$scope', '$http', function ($scope, $http) {
+ .controller('MarcadoCtrl', ['$scope', '$http', 'CdeList', function ($scope, $http, CdeList) {
 
  	$scope.alert = {};
+ 	$scope.formulario = {};
 
- 	$http.get('json/asesor.json').success(function(data) {
-		$scope.asesores = data;
-		console.log(data);
-	});
+	$scope.datas = CdeList.query();
+	//console.log($scope.datas);
 
 	$scope.setLoginForm = function(){
-		if (_.size($scope.formulario.cde) === 0) {
+		console.log($scope.formulario);
+
+		if (_.isUndefined($scope.formulario.Tienda)) {
 			$scope.alert.cde = 1; 
 			return;
 		}
-		$scope.alert.cde = 0; 
-		console.log(_.size($scope.formulario.cde));
-		console.log($scope.formulario);
+		$scope.alert.cde = 0;
 	}
-
-
- 	
+ }])
+ .controller('testServiceCtrl', ['$scope', 'Phone', function($scope, Phone){
+ 	 $scope.phones = Phone.query();
+ 	 console.log($scope.phones);
  }]);
