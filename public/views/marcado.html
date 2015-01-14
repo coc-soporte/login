@@ -1,5 +1,10 @@
 <div ng-show="1">
-		<form ng-submit="setLoginForm()">
+		
+		<div class="alert alert-success" role="alert" id="ingresoCorrecto" style="display:none">
+			<h3 class="text-center">Ingeso Correcto</h3>
+		</div>
+
+		<form ng-submit="setLoginForm()" ng-hide="keyShow">
 			<div class="form-group" style="padding-top: 35px;">
 
 				<div class="col-md-4 col-md-offset-4">
@@ -29,14 +34,14 @@
 			</div>
 			<div class="alert alert-danger col-md-4 col-md-offset-4" ng-show="alert.cde" role="alert">Selecciona un CDE</div>
 			<div class="alert alert-danger col-md-4 col-md-offset-4" ng-show="alert.datosMal" role="alert">
-				<strong>Datos Incorrectos ingresados.</strong>
+				<strong>Datos ingresados Incorrectos.</strong>
 			</div>
 		</form>
 
-		<form ng-submit="setLoginKey()">
+		<form ng-submit="setLoginKey()" ng-show="keyShow">
 			<div ng-show="1">
 				<div class="col-md-4 col-md-offset-4" style="margin-top: 20px">
-					<input type="type" placeholder="Clave de SMS" ng-model="formulario.key" class="form-control input-lg input-lg text-center" required>
+					<input type="type" placeholder="Clave de SMS" ng-model="keyModel.key" class="form-control input-lg input-lg text-center" required>
 				</div>
 
 				<div class="col-md-4 col-md-offset-4" style="margin-top: 10px">
@@ -44,7 +49,7 @@
 						<span ng-hide="disableBotonSubmitKey">Validar Clave</span>
 						<i ng-show="disableBotonSubmitKey" class="fa fa-spinner fa-spin"></i>
 					</button>
-					<div class="alert alert-danger" ng-show="alert.cde" role="alert" style="margin: 2%">
+					<div class="alert alert-danger" ng-show="alert.key" role="alert" style="margin: 2%">
 						Clave incorrecta
 					</div>
 					<div style="padding: 2%" class="text-right">
