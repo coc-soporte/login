@@ -1,0 +1,30 @@
+<div class="" style="padding: 45px 15px 15px;">
+			<!--  Formulario de creacion y actualización  -->
+			<form name="datosCU" ng-submit="datosCU.$valid && agregarUsuario(usuarios)"> 
+
+				<div class="form-group col-md-12">
+					<input type="text" required ng-model="datosForm.usuario" class="form-control" id="" placeholder="Usuario, Ej: LS1143000000">
+				</div>
+
+				<div class="form-group col-md-12">
+					<input type="email" required ng-model="datosForm.email" class="form-control" id="" placeholder="Email. Ej: walter.white@mail.tigo.com.co">
+				</div>
+
+				<div class="form-group col-md-12">
+					<input type="text" required ng-model="datosForm.nombre" class="form-control" id="" placeholder="Ingresa el nombre">
+				</div>
+
+				<div class="form-group col-md-12">
+					<input type="text" required ng-model="datosForm.celular" class="form-control" id="" placeholder="Ingresa el Celular">
+				</div>
+
+				<div class="form-group col-md-12">
+					<button type="submit" class="btn btn-success">Submit</button>
+					<input type="reset" class="btn btn-default pull-right" value="reset">
+				</div>
+			</form>
+
+			<h4>
+				<span ng-show="alert" class="label label-{{tipoAlerta}}">{{mensajeAlerta}}</span>
+			</h4>
+</div>

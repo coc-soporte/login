@@ -24,6 +24,17 @@ angular
 				templateUrl: 'views/test.html',
 				controller: 'testServiceCtrl'
 			})
+			.when('/racs/:codpos', {
+				templateUrl: 'views/racs.html',
+				controller: 'crudRacCtrl'
+			})
+			.when('/rac/:codpos/:userid', {
+				templateUrl: 'views/rac.html'
+			})
+			.when('/registro', {
+				templateUrl: 'views/registro.html',
+				controller: 'registroCtrl'
+			})
 			.otherwise({
 				redirectTo: '/'
 			});

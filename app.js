@@ -14,6 +14,9 @@ app.use(express.static(__dirname + '/bower_components'));
 var rutasLogin = require('./routes/rutasLogin');
 app.use('/login', rutasLogin);
 
+var rutasAdmin = require('./routes/rutasAdmin');
+app.use('/admin', rutasAdmin);
+
 app.listen(3000, function(){
 	console.log('Listen on Port 3000');
 });

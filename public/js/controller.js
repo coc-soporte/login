@@ -86,7 +86,33 @@
 
 
  }])
- .controller('testServiceCtrl', ['$scope', 'Phone', function($scope, Phone){
- 	 $scope.phones = Phone.query();
- 	 console.log($scope.phones);
- }]);
+ // .controller('crudRacCtrl', ['$scope', '$http', 'Rac', '$routeParams', function($scope, $http, Rac, $routeParams){
+ // 		$scope.codpos = $routeParams.codpos;
+ // 		$scope.datas = Rac.query({codpos: $scope.codpos});
+ // }])
+ .controller('crudRacCtrl', ['$scope', '$http', 'Rac', '$routeParams', function($scope, $http, Rac, $routeParams){
+ 	$scope.datosForm = {};
+ 		$scope.codpos = $routeParams.codpos;
+ 		//$scope.id = $routeParams.id;
+ 		$scope.datas = Rac.query({codpos: $scope.codpos});
+ 		//$scope.datas = Rac.query({codpos: $scope.codpos, userid: $scope.id});
+
+ 		$scope.editForm = function(userid){
+ 			
+ 			Rac.query({codpos: $scope.codpos, userid: userid}, function(data){
+ 				$scope.datosForm = data[0]; 
+ 			});
+ 			
+ 		}
+ }])
+ .controller('registroCtrl', ['$scope', '$http', 'Registro', function($scope, $http, Rac){
+ 	
+ }])
+
+.directive('formCrud', function(){
+	return{
+		restrict: 'E',
+		templateUrl: "views/form-crud.html"
+	};
+});
+
