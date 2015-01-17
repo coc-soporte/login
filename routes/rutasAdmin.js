@@ -59,10 +59,12 @@ rutasAdmin.route('/rac')
 	});
 
 	console.log(put);
-})
+});
+
+rutasAdmin.route('/rac/:id')
 .delete(function(req, res){
-	var id = req.body.id;
-	
+	var id = req.params.id;
+
 	var query = "DELETE  FROM login.asesores where ID = " + id;
 	
 	var query = pool.query(query , function(err, rows, fields) {

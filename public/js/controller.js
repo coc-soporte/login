@@ -92,18 +92,78 @@
  // }])
  .controller('crudRacCtrl', ['$scope', '$http', 'Rac', '$routeParams', function($scope, $http, Rac, $routeParams){
  	$scope.datosForm = {};
- 		$scope.codpos = $routeParams.codpos;
- 		//$scope.id = $routeParams.id;
- 		$scope.datas = Rac.query({codpos: $scope.codpos});
- 		//$scope.datas = Rac.query({codpos: $scope.codpos, userid: $scope.id});
+ 		
+ 	$scope.codpos = $routeParams.codpos;
+ 	//$scope.id = $routeParams.id;
+ 	$scope.datas = Rac.query({codpos: $scope.codpos});
+ 	//$scope.datas = Rac.query({codpos: $scope.codpos, userid: $scope.id});
+ 	function slowAlert() {
+	  	$('#modal-rac').modal('hide');
+	}
 
- 		$scope.editForm = function(userid){
- 			
- 			Rac.query({codpos: $scope.codpos, userid: userid}, function(data){
- 				$scope.datosForm = data[0]; 
- 			});
- 			
+ 	$scope.editForm = function(userid){
+ 		Rac.query({codpos: $scope.codpos, userid: userid}, function(data){
+ 			$scope.datosForm = data[0]; 
+ 		});
+ 	};
+
+ 	$scope.clearForm = function(){
+ 		$scope.datosForm = {};
+ 	};
+
+ 	$scope.agregarUsuario = function(){
+ 		console.log($scope.datosForm.id);
+ 		
+ 		if ($scope.datosForm.id) {
+ 			console.log("hola");
+ 			updateUsuario();
+ 		}else{
+			$scope.datosForm.cod_pos = $scope.codpos;
+
+	 		$http.post(location.origin + '/admin/rac', $scope.datosForm).
+			  success(function(data, status, headers, config) {
+			  	if (_.size(data) > 0) {
+			  		$scope.datosForm = {};  
+			  		slowAlert();
+			  		location.reload();
+			  	};		  		
+			  }).
+			  error(function(data, status, headers, config) {});
+		}
+ 	};
+
+ 	function updateUsuario(){
+ 		var datosForm = _.clone($scope.datosForm);
+ 		delete datosForm.log; delete datosForm.pass;
+ 		$http.put(location.origin + '/admin/rac', datosForm).
+		  // eliminar log de los datos y otros mas
+		  success(function(data, status, headers, config) {
+		  	if (_.size(data) > 0) {
+		  		$scope.datosForm = {};  
+		  		slowAlert();
+		  		location.reload();
+		  	};		  		
+		  }).
+		  error(function(data, status, headers, config) {});
+ 	}
+
+ 	$scope.deleteUser = function(){
+ 		//console.log($scope.datosForm);
+ 		if ($scope.datosForm.id) {
+ 			$http.delete(location.origin + '/admin/rac/' + $scope.datosForm.id).
+			  success(function(data, status, headers, config) {
+			  	if (_.size(data) > 0) {
+			  		$scope.datosForm = {};  
+			  		slowAlert();
+			  		location.reload();
+			  	};		  		
+			  }).
+			  error(function(data, status, headers, config) {});
  		}
+ 	};
+
+
+
  }])
  .controller('registroCtrl', ['$scope', '$http', 'Registro', function($scope, $http, Rac){
  	

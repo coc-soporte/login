@@ -2,7 +2,7 @@
 	<h1>Listado de Rac CDE</h1>
 </div>
 <div class="row">
-	<button class="btn btn-default" data-toggle="modal" data-target="#modal-rac">Agregar Rac</button>
+	<button class="btn btn-default" ng-click="clearForm()" data-toggle="modal" data-target="#modal-rac">Agregar Rac</button>
 </div>
 <table class="table table-striped table-hover table-responsive panel panel-default">
 	<thead>
@@ -50,7 +50,7 @@
 								<a href data-toggle="collapse" data-target="#collapseDelete">Eliminar usuario</a>
 								<div id="collapseDelete" class="collapse">
 									All actions will be removed from the activity feed and you won't be able to re-open the card.
-									<button class="btn btn-danger btn-block" ng-click="deleteUser(datosForm.CELULAR)">Eliminar</button>
+									<button class="btn btn-danger btn-block" ng-click="deleteUser()">Eliminar</button>
 								</div>
 
 							</div>
