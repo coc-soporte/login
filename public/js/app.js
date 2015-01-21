@@ -31,7 +31,7 @@ angular
 			.when('/rac/:codpos/:userid', {
 				templateUrl: 'views/rac.html'
 			})
-			.when('/registro', {
+			.when('/registro/:codpos', {
 				templateUrl: 'views/registro.html',
 				controller: 'registroCtrl'
 			})

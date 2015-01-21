@@ -32,18 +32,31 @@ rutasLogin.route('/cdelist')
 	});
 });
 
-rutasLogin.route('/checkUser')
+rutasLogin.route('/checkUser/:user')
 .post(function(req, res){
 
 	//console.log(req.body);
 	var email = req.body.user;
 	var pass = req.body.pass;
+	var tipoUsuario = req.params.user;
 
-	var query = "SELECT *, MD5(now()) as clave FROM login.asesores where email = '" + 
-				email + "' and pass = '" + pass + "'";
+	console.log(tipoUsuario);
+
+	if (tipoUsuario === "rac") {
+		var query = "SELECT *, MD5(now()) as clave FROM login.asesores where email = '" + 
+					email + "' and pass = '" + pass + "'";
+	}else if(tipoUsuario === "admin"){
+		var query = "SELECT * FROM bd_cded_cde_pda.administradores where Correo = '" + 
+					email + "' and pass = '" + pass + "'";
+	}else if(tipoUsuario === "coor"){
+		var query = "SELECT * FROM bd_cded_cde_pda.coordinadores_db where Correo = '" + 
+					email + "' and pass = '" + pass + "'";
+	}else{
+		if (err){res.status(400).json({status: '400'});return;}
+	}
 
 	pool.query(query, function(err, rows, fields) {
-	  	if (err) throw err;
+	  	if (err){res.status(400).json({status: '400'});return;}
 	  	res.json(rows[0]);
 	});
 });

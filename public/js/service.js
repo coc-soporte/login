@@ -17,4 +17,9 @@ angular.module('loginServices', ['ngResource'])
 	return $resource('http://10.66.6.241:3000/admin/rac', {}, {
       query: {method:'GET', params:{}, isArray:true}
     });
+}])
+.factory('Registro', ['$resource', function($resource){
+	return $resource('http://10.66.6.241:3000/admin/registro', {}, {
+      query: {method:'GET', params:{}, isArray:true}
+    });
 }]);

@@ -24,10 +24,9 @@ rutasAdmin.route('/rac')
 		if (_.size(userId) > 0) {
 			var query = "SELECT * FROM login.asesores where Cod_Pos = '" + Cod_Pos + "' and id = " + userId + " and estado = 'activo'";
 		}else{
-			//var query = "SELECT * FROM login.asesores where Cod_Pos = '" + Cod_Pos + "' and id = " + userId + " and estado = 'activo'";
 			var query = "SELECT * FROM login.asesores where Cod_Pos = '" + Cod_Pos + "' and estado = 'activo'";
 		}
-		//console.log(query);
+		
 		pool.query(query, function(err, rows, fields) {
 		  	if (err) throw err;
 		  	res.json(rows);

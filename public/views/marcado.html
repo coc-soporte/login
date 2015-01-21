@@ -1,4 +1,4 @@
-<div ng-show="1">
+<div ng-show="1" style="padding-top: 70px;">
 		
 		<div class="alert alert-success" role="alert" id="ingresoCorrecto" style="display:none">
 			<h3 class="text-center">Ingeso Correcto</h3>
@@ -41,7 +41,7 @@
 		<form ng-submit="setLoginKey()" ng-show="keyShow">
 			<div ng-show="1">
 				<div class="col-md-4 col-md-offset-4" style="margin-top: 20px">
-					<input type="type" placeholder="Clave de SMS" ng-model="keyModel.key" class="form-control input-lg input-lg text-center" required>
+					<input type="type" placeholder="Clave de SMS" ng-model="keyModel.key" class="form-control input-lg text-center" required>
 				</div>
 
 				<div class="col-md-4 col-md-offset-4" style="margin-top: 10px">
@@ -53,7 +53,7 @@
 						Clave incorrecta
 					</div>
 					<div style="padding: 2%" class="text-right">
-						<a href="" class="text-danger"><i class="fa fa-times"></i> Cancelar</a>
+						<a href="" ng-click="resetForms()"	class="text-danger"><i class="fa fa-times"></i> Cancelar</a>
 					</div>
 				</div>
 			</div>

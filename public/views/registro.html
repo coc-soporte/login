@@ -1,1 +1,31 @@
-<h1>hola registro</h1>
+<nav-bar></nav-bar>
+
+<h1>Registro</h1>
+
+<form ng-submit="setRegistro()" class="row">
+	<div class="col-md-4 col-xs-8">
+		<input type="date" ng-model="fecha" required placeholder="Fecha. ej: 2015-12-06" class="form-control input-lg input-lg">
+	</div>
+	<div class="col-md-4 col-xs-4">
+		<button type="submit" class="btn btn-primary btn-lg">Ver registros</button>
+	</div>
+</form>
+
+<table class="table table-striped table-hover table-responsive panel panel-default" style="margin-top: 10px;">
+	<thead>
+		<tr>
+			<th>Email</th>
+			<th>Fecha de registro</th>
+			<th>Rol</th>
+			<th>Estado</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="datoRegistro in datosRegistro">
+			<td>{{datoRegistro.email}}</td>
+			<td>{{datoRegistro.log}}</td>
+			<td>{{datoRegistro.rol}}</td>
+			<td>{{datoRegistro.inout}}</td>
+		</tr>
+	</tbody>
+</table>
