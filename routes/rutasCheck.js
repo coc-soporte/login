@@ -36,18 +36,26 @@ rutasCheck.route('/getCheckListCDEid/:codpos/:id')
 	}else{
 		res.status(404).json({status: '404'});
 	}
-})
-.post(function(req, res){
-	// var post = req.body;
+});
 
-	// if (_.size(post) > 0) {
-	// 		var query = pool.query('INSERT INTO login.asesores SET ?', post , function(err, rows, fields) {
-	// 			if (err){res.status(400).json({status: '400'});return;}
-	// 			res.json(rows);
-	// 		});
-	// }else{
-	// 	res.status(404).json({status: '404'});
-	// }
+rutasCheck.route('/getCheckListCDE/:paginacion')
+.post(function(req, res){
+	
+	var post = req.body;
+	var Cod_Pos = post.ACC_PFKSTROFICINA;
+	var paginacion = req.params.paginacion*10;
+
+	if (_.size(post) > 0) {
+		var query = "SELECT * FROM bd_cded_cde_pda.checklist where ch_codPos = '" + Cod_Pos + "' order by ch_log desc limit " 
+			+ paginacion + ", 10";
+	 	
+	 	pool.query(query , function(err, rows, fields) {
+	 		if (err){res.status(400).json({status: '400'});return;}
+	 		res.json(rows);
+	 	});
+	}else{
+		res.status(404).json({status: '404'});
+	}
 
 });
 
