@@ -1,0 +1,29 @@
+<!-- 	------------------------------- Loging ------------------------------------------- -->
+<div class="container" ng-controller="PassCtrl">
+	
+	<form ng-submit="">
+		<div class="form-group row">
+
+			<div class="col-md-4 col-md-offset-4">
+				<input type="text" class="form-control input-lg input-lg text-center" placeholder="Usuario Digiturno">
+			</div>
+	
+			<div class="col-md-4 col-md-offset-4" style="margin-top: 20px">
+				<input type="password" placeholder="Contraseña Anterior" class="form-control input-lg input-lg text-center" ng-model="password">
+			</div>
+
+			<div class="col-md-4 col-md-offset-4" style="margin-top: 20px">
+				<input type="password" placeholder="Nueva contraseña" class="form-control input-lg input-lg text-center" ng-model="password">
+			</div>
+
+			<div class="col-md-4 col-md-offset-4" style="margin-top: 20px">
+				<input type="password" placeholder="Nueva contraseña (de nuevo)" class="form-control input-lg input-lg text-center" ng-model="password">
+			</div>
+
+			<div class="col-md-4 col-md-offset-4" style="margin-top: 10px">
+				<button type="submit" class="btn btn-lg btn-block btn-success">Cambiar contraseña</button>
+			</div>
+			
+		</div>
+	</form>
+</div>

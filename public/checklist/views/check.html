@@ -1,0 +1,351 @@
+<!-- 	------------------------------- Loging ------------------------------------------- -->
+<div class="container" ng-controller="CheckCtrl">
+
+	<div ng-show="session">
+	<h3 class="text-center" style="color:#3146A6">Checklist apertura dimensionamiento diario</h3>
+		<form ng-submit="setLoginForm()">
+			<div class="form-group row" style="padding-top: 35px;">
+
+				<div class="col-md-4 col-md-offset-4">
+					<div class="row">
+						<ls-datalist class="col-md-12" placeholder="Escriba aqui su CDE" lsmodel="formulario" value="ip" option="cde">
+						</ls-datalist>
+					</div>
+				</div>
+
+				<div class="col-md-4 col-md-offset-4" style="margin-top: 20px">
+					<input type="text" ng-model="formulario.user" class="form-control input-lg input-lg text-center" placeholder="Usuario Digiturno" required>
+				</div>
+		
+				<div class="col-md-4 col-md-offset-4" style="margin-top: 20px">
+					<input type="password" placeholder="Contraseña digiturno" ng-model="formulario.pass" class="form-control input-lg input-lg text-center" ng-model="password" required>
+				</div>
+				
+				<div class="col-md-4 col-md-offset-4" style="margin-top: 10px">
+					<button ng-disabled="disableBotonSubmit" type="submit" class="btn btn-lg btn-block btn-success">
+						<span ng-hide="disableBotonSubmit">Ingresar</span>
+						<i ng-show="disableBotonSubmit" class="fa fa-spinner fa-spin"></i>
+					</button>
+				</div>
+				
+			</div>
+			<div class="alert alert-danger col-md-4 col-md-offset-4" ng-show="alert.cde" role="alert">Selecciona un CDE</div>
+			<div class="alert alert-danger col-md-4 col-md-offset-4" ng-show="alert.datosMal" role="alert">
+				<strong>Datos Incorrectos ingresados.</strong>
+				<div>El usuario debe que tener permisos de administrador o coordinador en Digiturno (Usuario Autorizado)</div>
+				<div>Si no es Usuario autorizado enviar correo de solicitud a 
+					<strong>soporte.digiturno@tigo.com.co</strong>
+				</div>
+			</div>
+		</form>
+	</div>
+<!-- 	------------------------------- Eventos ------------------------------------------- -->
+	<span class="text-left" ng-hide="session"><a class="btn btn-primary" href="#lista/0"><i class="fa fa-list-ul"></i> Ver lista</a></span>
+	<!-- Button trigger modal -->
+	<button type="button" ng-hide="session" class="btn btn-link" data-toggle="modal" data-target="#myModal"><i class="fa fa-question-circle"></i> Ayuda</button>
+
+	<div class="text-right" ng-hide="session"><a href="" ng-click="logOut()">cerrar sesión</a></div>
+	
+
+	<form ng-hide="session">	
+		<div class="row" style="margin-top: 30px">
+			<div class="row">
+				<div  class="col-md-11 col-xs-11" ng-class="showForm !== 1 ? 'transparente' : sucion">			
+				</div>
+			</div>
+			<div class="row label-list">
+				<div class="col-md-1 col-xs-1">
+					<span class="list-group-item list-group-item-verde">Contratados</span>
+				</div>
+				<div class="col-md-1 col-xs-1" ng-repeat="detalle in asesores.eventos">
+					<span class="list-group-item list-group-item-verde">
+						{{detalle.label}}
+					</span>
+				</div>
+			</div>
+			<div class="row">			
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 1" type="number" min="0" ng-model="checkData.ch_contratados" class="form-control input-lg" style="background-color: rgba(226, 226, 226, 0.26)">
+				</div>
+				
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 1" type="number" min="0" class="form-control input-lg" ng-model="checkData.ch_compensatorio" min="0">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 1" type="number" min="0" class="form-control input-lg" ng-model="checkData.ch_incapacitados" min="0">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 1" type="number" min="0" class="form-control input-lg" ng-model="checkData.ch_prestados" min="0">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 1" type="number" min="0" class="form-control input-lg" ng-model="checkData.ch_ausentes" min="0">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 1" type="number" min="0" class="form-control input-lg" ng-model="checkData.ch_entrenamiento" min="0">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 1" type="number" min="0" class="form-control input-lg" ng-model="checkData.ch_capacitacion" min="0">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 1" type="number" min="0" class="form-control input-lg" ng-model="checkData.ch_vacioLab" min="0">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 1" type="number" min="0" class="form-control input-lg" ng-model="checkData.ch_vacaciones" min="0">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 1" type="number" min="0" class="form-control input-lg" ng-model="checkData.ch_ventaExterna" min="0">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 1" type="number" min="0" class="form-control input-lg" ng-model="checkData.ch_retiros" style="background-color: rgba(255, 0, 0, 0.15)">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 1" type="number" min="0" class="form-control input-lg" ng-model="checkData.ch_aseApoyos" style="background-color: rgba(0, 81, 255, 0.15)">
+				</div>
+
+				<div class="col-md-6 col-xs-6 col-md-offset-4 col-xs-offset-4" style="margin-top: 2%">
+					<div class="btn-group" role="group">
+						<button type="button" class="btn btn-lg btn-default disabled">{{asesores.enCDE}} RACs en CDE</button>
+						<button type="button" class="btn btn-lg btn-success" ng-click="eventos(2)" ng-disabled="showForm !== 1"> 
+							Siguiente
+						</button>
+					</div>					
+				</div>
+				
+					
+			</div>
+
+		</div>
+
+	<!-- 	-------------------------------- Modelo operacional  ------------------------------------------ -->
+
+		<div class="row" style="margin-top: 50px">
+			<div  class="col-md-11 col-xs-11" ng-class="showForm !== 2 ? 'transparente' : sucion"></div>
+			<div class="row label-list">
+				<div class="col-md-1 col-md-offset-2 col-xs-1 col-xs-offset-2">
+					<span class="list-group-item list-group-item-azul">Racs en CDE</span>
+				</div>
+				<div class="col-md-1 col-xs-1" ng-repeat="rol in asesores.modelo">
+					<span class="list-group-item list-group-item-azul">
+						{{rol.label}}
+					</span>
+				</div>
+			</div>
+
+			<div class="row">
+				<button class="btn btn-default btn-lg col-md-1 col-md-offset-1 col-xs-1 col-xs-offset-1" ng-click="eventos(1)" ng-disabled="showForm !== 2">atrás</button>
+				<div class="col-md-1 col-xs-1">
+					<div class="form-control input-lg" readonly>{{asesores.enCDE}}</div>
+				</div>	
+
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 2" type="number" ng-model="checkData.ch_orientador" class="form-control input-lg" min="0">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 2" type="number" ng-model="checkData.ch_PL" class="form-control input-lg" min="0">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 2" type="number" ng-model="checkData.ch_SL" class="form-control input-lg" min="0">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 2" type="number" ng-model="checkData.ch_DM" class="form-control input-lg" min="0">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 2" type="number" ng-model="checkData.ch_GB" class="form-control input-lg" min="0">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 2" type="number" ng-model="checkData.ch_LZ" class="form-control input-lg" min="0">
+				</div>
+
+				<button class="btn btn-lg" ng-class="buttonClass" ng-click="eventos(3)" ng-disabled="modeloFunction()">{{asesores.modeloManual}} Siguiente</button>
+			</div>
+		</div>
+
+	<!-- 	------------------------------- Distribucion ------------------------------------------- -->
+
+		<div class="row" style="margin-top: 50px">
+			<div class="col-md-11 col-xs-11" ng-class="showForm !== 3 ? 'trasparente2' : sucion"></div>
+			<div class="row label-list">
+				<div class="col-md-1 col-md-offset-1 col-xs-1 col-xs-offset-1">
+					<span class="list-group-item list-group-item-naranja">Racs Atención</span>
+				</div>
+				<div class="col-md-1 col-xs-1">
+					<span class="list-group-item list-group-item-naranja">
+						{{asesores.distribucion[0].label}}
+					</span>
+				</div>
+				<div class="col-md-2 col-xs-2">
+					<span class="list-group-item list-group-item-naranja">
+						{{asesores.distribucion[1].label}}
+					</span>
+				</div>
+				<div class="col-md-2 col-xs-2">
+					<span class="list-group-item list-group-item-naranja">
+						{{asesores.distribucion[2].label}}
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<button class="btn btn-lg btn-default col-md-1 col-xs-1" ng-click="eventos(2)" ng-disabled="showForm !== 3">atrás</button>
+				
+				<div class="col-md-1 col-xs-1">
+					<div class="form-control input-lg" readonly>{{asesores.enAtencion}}</div>
+				</div>
+
+				<div class="col-md-1 col-xs-1" style="padding-left: 0px;">
+					<input ng-disabled="showForm !== 3" type="number" class="form-control input-lg" min="0" ng-model="checkData.ch_apertura">
+				</div>
+
+				<!-- *************** Segundo Turno ********************* -->
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 3" type="number" class="form-control input-lg" min="0" ng-model="checkData.ch_segTurno">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-left: 0px;">
+					<input style="font-size:1em;padding: 4px;" ng-disabled="showForm !== 3" type="text" placeholder="hora" class="datetimepicker1 form-control input-lg" min="0" ng-model="otraData.ch_horaSegTurno">
+				</div>
+				<!-- *************** END Segundo Turno ********************* -->
+
+<!-- 				*************** Tercer Turno ********************* -->
+				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
+					<input ng-disabled="showForm !== 3" type="number" class="form-control input-lg" min="0" ng-model="checkData.ch_terTurno">
+				</div>
+				<div class="col-md-1 col-xs-1" style="padding-left: 0px;">
+					<input style="font-size:1em;padding: 4px;" ng-disabled="showForm !== 3" type="text" placeholder="hora" class="datetimepicker1 form-control input-lg" min="0" ng-model="otraData.ch_horaTerTurno">
+				</div>
+<!-- 				*************** END Tercer Turno ********************* -->
+
+				<div class="col-md-4 col-xs-4">
+					<textarea placeholder="Observaciones" ng-model="checkData.ch_observaciones" class="form-control" rows="3"
+					style="resize:vertical"></textarea>
+				</div>
+				<button class="btn btn-lg col-md-1 col-xs-1" ng-class="buttonClass2" ng-click="setChecklistForm()" ng-disabled="distribucionFunction() || disableBotonSubmit2">
+					<span ng-hide="disableBotonSubmit2">{{asesores.atencionDist}} Enviar </span>				
+					<i ng-show="disableBotonSubmit2" class="fa fa-spinner fa-spin"></i>
+				</button>
+			</div>
+			
+			<div class="alert alert-info col-md-6 col-md-offset-1" style="margin-top: 5px" role="alert">
+				<strong>Aviso!</strong> Sólo se tiene en cuenta la apertura y segundos turnos de los asesores en atención,  es decir L1 y L2.
+			</div>
+
+		</div>	
+	</form>
+	
+</div>
+
+
+<div ng-show="0" class="modal-backdrop fade in" style="bottom: 0;z-index: 20;"></div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Checklist apertura dimensionamiento diario</h4>
+      </div>
+      <div class="modal-body">
+       
+        <div class="page-header">
+        	<h3>Aclaraciones: </h3>
+        	<li>El usuario debe tener permisos de administrador o coordinador en Digiturno (Usuario Autorizado). Si no es Usuario autorizado enviar correo de solicitud a soporte.digiturno@tigo.com.co</li>
+        	<li>Sólo se tiene en cuenta la <strong>apertura y segundos turnos de los asesores en atención,</strong> es decir L1 y L2. </li>
+			<li><strong>No utilizar</strong> Internet Explorer</li>    		
+		  
+		  <h3> Cada uno de los campos debe ser diligenciado de acuerdo a lo siguiente: <small></small></h3>
+		</div>
+		<div class="list-group">
+		  <a href="" class="list-group-item">
+		  	<h4 class="list-group-item-heading">Cantidad de asesores Contratados</h4>
+		  		<p>Seleccionar la cantidad de asesores laborando en CDE (Apertura, 2do turno, compensando, incapacitados, vacaciones, ausentes, asesores en préstamos).</p>
+		  	</a>
+		  <a href="" class="list-group-item">
+		  	<h4 class="list-group-item-heading">Compensatorios</h4>
+		  		<p>Se deben agregar el número de asesores que se encuentra compensando.
+		  		</p>
+		  	</a>
+		  <a href="" class="list-group-item">
+		  	<h4 class="list-group-item-heading">Cantidad de asesores incapacitados</h4>
+		  		<p>Seleccionar la cantidad de asesores que se identifican como incapacitados al momento de la apertura del CDE.</p>
+		  	</a>
+		  <a href="" class="list-group-item">
+		  	<h4 class="list-group-item-heading">Cantidad de asesores en préstamos a otros CDE</h4>
+		  		<p>Cuando se envía a uno o varios  asesores como apoyo a otro CDE.</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">Cantidad de asesores ausentes (porque no se tenga noticia de ellos)</h4>
+		  		<p>Seleccionar la cantidad de asesores que se identifican como ausentes al momento de la apertura del CDE. Como ausentes se entiende asesores que no se sepa, en el momento, porque no han llegado.</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">Entrenamiento</h4>
+		  		<p>Ingresar la cantidad de asesores que se encuentran en entrenamiento</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">Capacitación</h4>
+		  		<p>Se deben seleccionar la cantidad de asesores que se encuentran en capacitación de promociones o productos de la compañía (Ejemplo: Back to school, Tigo Flash, Promo Madres, etc).</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">Agregar vacío laboral</h4>
+		  		<p>Se debe ingresar la cantidad de asesores que se encuentra en vacío laboral.</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">Cantidad de asesores en vacaciones</h4>
+		  		<p>Seleccionar la cantidad de asesores que se encuentran en vacaciones.</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">Venta externa</h4>
+		  		<p>Ingresar la cantidad de Asesores que realizarán ventas fuera del CDE, escribir en observaciones las horas en que se encontraran es dicha actividad.</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">Retiros</h4>
+		  		<p>Cantidad de Asesores desvinculados de la compañía, cuyos cupos aún cuentan para el CDE</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">Asesores apoyando (AseApoyos)</h4>
+		  		<p>Cantidad de asesores que se encuentran en otros CDE como apoyos programados.</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">L1</h4>
+		  		<p>Cantidad de asesores en primera línea</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">L2</h4>
+		  		<p>Cantidad de asesores en segunda línea</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">DM</h4>
+		  		<p>Cantidad de asesores en dialogo en movimiento</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">GB</h4>
+		  		<p>Cantidad de asesores en Genius Bar</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">LZ</h4>
+		  		<p>Cantidad de asesores en Líder de Zona</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">Apertura</h4>
+		  		<p>Seleccionar la cantidad de asesores con la que se realizó la apertura del CDE y pertenecen a L1 y L2.</p>
+		  	</a>
+		  	<a href="" class="list-group-item">
+		  		<h4 class="list-group-item-heading">Cantidad de asesores que ingresan en el 2do turno (Seg Turno)</h4>
+		  		<p>Seleccionar la cantidad de asesores que deben ingresar en el segundo turno del CDE.</p>
+		  	</a>
+		</div>		
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+	$(function () {
+	    $('.datetimepicker1').datetimepicker({
+	        pickDate: false
+	    });
+	});
+</script>
+
