@@ -29,6 +29,9 @@ angular
 			.when('/cambiarpass', {
 				templateUrl: 'views/cambiarpass.html'
 			})
+			.when('/ie/:ie', {
+				templateUrl: 'views/ie.html'
+			})
 			.otherwise({
 				redirectTo: '/'
 			});

@@ -4,9 +4,34 @@
  * @name lenninlasd@gmail.com 
  */
 
+ function getInternetExplorerVersion()
+// Returns the version of Internet Explorer or a -1
+// (indicating the use of another browser).
+{
+  var rv = -1; // Return value assumes failure.
+  if (navigator.appName == 'Microsoft Internet Explorer')
+  {
+    var ua = navigator.userAgent;
+    var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+    if (re.exec(ua) != null)
+      rv = parseFloat( RegExp.$1 );
+  }
+  return rv;
+}
+
  angular.module('marcado')
  .controller('CheckCtrl', ['$scope', '$http', '$location', '$routeParams', function ($scope, $http, $location, $routeParams) {
 
+ 	//---------------------- Check Navegador ------------------------
+
+ 	if (getInternetExplorerVersion() != "-1") {
+ 		location.href('/checklist/ie.html');
+ 		console.log('es ie');
+ 	}else{
+ 		console.log('no es ie');
+ 	}
+
+	// ---------------------- End  Check Navegador -------------------
 	$scope.datas = [];
 
 	function inicio(){
@@ -49,7 +74,7 @@
 	}else{
 		$scope.session = true;
 	}
-	console.log($scope.session);
+	//console.log($scope.session);
 	//***********************************************************************
 	$scope.buttonClass = 'btn-default';
 	$scope.buttonClass2 = 'btn-default';
@@ -199,7 +224,7 @@
 					//console.log($scope.loginData);
 
 				}else{
-					console.log(typeof(data));
+					//console.log(typeof(data));
 					$scope.alert.datosMal = 1;
 					$scope.disableBotonSubmit = 0;
 				}
@@ -282,7 +307,8 @@
 
 	    console.log(checkData);
 
-	   	$http.post('http://10.66.6.241:82/code-dev/analytics/insertChecklist', checkData).
+	    //$http.post('http://10.66.6.241:82/code-dev/analytics/insertChecklist', checkData).
+	   	$http.post('http://10.66.6.241:3000/check/checkListCDE', checkData).
 			success(function(data, status, headers, config) {
 				$scope.enviado = 1;
 				$scope.disableBotonSubmit2 = 0;

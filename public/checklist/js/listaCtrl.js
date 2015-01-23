@@ -10,6 +10,7 @@
  	$scope.spin = 1;
  	$scope.sinRegistros = 0;
  	$scope.disablePaginacion = 1;
+ 	$scope.disablePaginacionNext = 1;
  	$scope.paginacion = parseInt($routeParams.paginacion);
  		//--------- Valida la Sesion --------------------
  	
@@ -18,13 +19,15 @@
 	if (checkSession !== null ) {
 
 		$scope.loginData = checkSession;		
-		
-				$http.post('http://10.66.6.241:3000/check/getCheckListCDE/' + $scope.paginacion, $scope.loginData).
+				
+				//$http.post('http://10.66.6.241:3000/check/getCheckListCDE/' + $scope.paginacion, $scope.loginData).
+				$http.get('http://10.66.6.241:3000/check/checkListCDE/?paginacion=' + $scope.paginacion + '&codpos=' + $scope.loginData.ACC_PFKSTROFICINA).
 					success(function(data, status, headers, config) {
 						console.log(data);
 						$scope.listas = data;
 						$scope.spin = 0;
 						$scope.disablePaginacion = 0;
+						$scope.disablePaginacionNext = 0;
 						// Varifica si se realizó el checkList
 						if ($scope.listas.length) {
 							if ($scope.listas[0]['ch_log'].slice(0, 10) == moment().format("YYYY-MM-DD") && $scope.listas[0]['ch_estado'] >= 1) {
@@ -35,7 +38,10 @@
 						}else if ($scope.paginacion == 0) {
 							$scope.disablePaginacion = 1;
 							$scope.sinRegistros = 1;
-						}
+						
+						}else if ($scope.paginacion > 0) {
+							$scope.disablePaginacionNext = 1;
+						};
 					}).
 					error(function(data, status, headers, config) {
 						console.log("error con lista de checklist: do something");
