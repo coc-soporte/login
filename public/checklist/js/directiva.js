@@ -40,6 +40,7 @@ angular.module('components', [])
 				//console.log("documenttt");
 	        	scope.$apply(function(){
 	        		scope.focus = false;
+	        		scope.busqueda = "";
 	        	});
 	      	});
 		}

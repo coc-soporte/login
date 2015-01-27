@@ -40,7 +40,8 @@
 		var inicio = localStorage.getItem("inicio");
 		// Si existe el registro en el localStorage, el registro se actualizará, y luego se actualiza el mysql
 		// Si no se tomara la info de la BD de MySql, se almacenará en el local
-
+		//console.log($scope.datas);
+		console.log(_.where($scope.datas, {nombre: "087 TIGO OCEAN MALL 2"}));
 		if (inicio == 1) {return}
 		
 		if ($scope.datas !== null) {
@@ -201,8 +202,8 @@
 	};
 
 	$scope.setLoginForm = function(){
-		//console.log($scope.formulario);
-
+		console.log($scope.formulario);
+		
 		if (!$scope.formulario.cde) {
 			$scope.alert.cde = 1;
 			$scope.alert.datosMal = 0;

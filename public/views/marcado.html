@@ -1,5 +1,5 @@
 <div ng-show="1" style="padding-top: 70px;">
-		
+		<h3 class="text-center">LogIn/LogOut</h3>
 		<div class="alert alert-success" role="alert" id="ingresoCorrecto" style="display:none">
 			<h3 class="text-center">Ingeso Correcto</h3>
 		</div>
@@ -24,6 +24,23 @@
 					</div>
 				</div>
 				
+				<div class="col-md-4 col-md-offset-4" style="margin-top: 15px">
+					<div class="row">
+						<div class="col-md-4 col-md-offset-2">
+						  <label>
+						    <input type="radio" required name="optionsRadios" id="optionsRadios1" ng-model="formulario.inout" value="in" checked>
+						    Entrada
+						  </label>
+						</div>
+						<div class="col-md-6">
+						  <label>
+						    <input type="radio" required name="optionsRadios" id="optionsRadios2" ng-model="formulario.inout" value="out">
+						    Salida
+						  </label>
+						</div>
+					</div>
+				</div>
+
 				<div class="col-md-4 col-md-offset-4" style="margin-top: 10px">
 					<button ng-disabled="disableBotonSubmit" type="submit" class="btn btn-lg btn-block btn-success">
 						<span ng-hide="disableBotonSubmit">Ingresar</span>
@@ -36,6 +53,13 @@
 			<div class="alert alert-danger col-md-4 col-md-offset-4" ng-show="alert.datosMal" role="alert">
 				<strong>Datos ingresados Incorrectos.</strong>
 			</div>
+			<div class="col-md-4 col-md-offset-6" style="margin-top: 10px">
+				<a href="/#/cambiarpass">Cambiar Contraseña</a>
+			</div>
+			<div class="alert alert-danger col-md-4 col-md-offset-4" ng-show="alert.firsPass" role="alert">
+				<strong>Cambiar tu contraseña:</strong> Para realizar tu primer logIn necesitas cambiar la contraseña por defecto, haz clic en el enlace: <a class="alert-link" href="/#/cambiarpass">Cambiar Contraseña</a>. 
+			</div>
+			
 		</form>
 
 		<form ng-submit="setLoginKey()" ng-show="keyShow">
@@ -58,4 +82,5 @@
 				</div>
 			</div>
 		</form>
+
 	</div>

@@ -35,6 +35,10 @@ angular
 				templateUrl: 'views/registro.html',
 				controller: 'registroCtrl'
 			})
+			.when('/cambiarpass', {
+				templateUrl: 'views/cambiarpass.html',
+				controller: 'cambiarpassCtrl'
+			})
 			.otherwise({
 				redirectTo: '/'
 			});

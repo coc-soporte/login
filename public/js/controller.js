@@ -13,10 +13,13 @@
 
 	var dataLocal;
 	$scope.datas = CdeList.query();
+	$scope.formulario = {};
 
 	$scope.resetForms = function(){
+		//console.log('asdflennin');
 		$scope.alert = {};
-		$scope.formulario = {};
+		$scope.formulario.user = "";
+		$scope.formulario.pass = "";
 		$scope.keyModel = {};
 		$scope.keyShow = 0;
 		dataLocal = {};
@@ -40,6 +43,14 @@
 		}
 		$scope.alert.cde = 0;
 		$scope.alert.datosMal = 0;
+		$scope.alert.firsPass = 0;
+		
+		console.log($scope.formulario);
+
+		if ($scope.formulario.pass == 'Tigo2015') {
+			$scope.alert.firsPass = 1;
+			return;
+		}
 
 		$http.post(location.origin + '/login/checkUser/rac', $scope.formulario).
 		  success(function(data, status, headers, config) {
@@ -81,12 +92,13 @@
 		  		dataLocal.cod_pos = $scope.formulario.Tienda;
 				dataLocal.email = data.email;
 				dataLocal.rol = "asesor";
-				dataLocal.inout = "in";
+				dataLocal.in_out = $scope.formulario.inout;
+
 				dataLocal.key = data.clave.slice(0, 8);
 			
 		  		localStorage.setItem(data.email, JSON.stringify(dataLocal));
 		  		//console.log($scope.keyShow);
-		  		var url = "http://10.65.136.19:13013/cgi-bin/sendsms?to=" + data.celular + "&username=foo&password=bar&text=" + dataLocal.key + "&from=log" + dataLocal.inout;
+		  		var url = "http://10.65.136.19:13013/cgi-bin/sendsms?to=" + data.celular + "&username=foo&password=bar&text=" + dataLocal.key + "&from=log" + dataLocal.in_out;
 		  		$http.get(url);
 		  	}		  	
 		  }).
@@ -250,5 +262,64 @@
 		restrict: 'E',
 		templateUrl: "views/NavBar.html"
 	};
-});
+})
+
+.controller('cambiarpassCtrl', ['$scope', '$http', 'Rac', '$routeParams', '$location', function($scope, $http, Rac, $routeParams, $location){
+	
+	$scope.alert = {};
+	$scope.formulario = {}
+	$scope.alert.youShallNoPass = 0;
+	$scope.alert.datosMal = 0;
+	//console.log($scope.datas);
+
+	$scope.changuePassForm = function(){
+
+		$scope.alert.youShallNoPass = 0;
+		$scope.alert.datosMal = 0;
+
+		if ($scope.formulario.newpassagain == $scope.formulario.newpass) {
+
+			var dataUp = {email: $scope.formulario.user,
+						  pass: $scope.formulario.newpass};
+			var dataGet = {user: $scope.formulario.user,
+						  pass: $scope.formulario.oldpass};
+			
+			$http.post('http://10.66.6.241:3000/login/checkUser/' + $scope.formulario.tipouser, dataGet).
+			  success(function(data, status, headers, config) {
+			  	console.log(data);
+			  	if (data) {
+			  		$http.put('http://10.66.6.241:3000/admin/racUpDate/' + $scope.formulario.tipouser, dataUp).
+					  success(function(data, status, headers, config) {
+					  	if (data.affectedRows == 0) {
+					  		$scope.alert.datosMal = 1
+					  	
+					  	}else if (data.affectedRows == 1) {
+					  		$scope.formulario = {};
+					  		$("#cambioCorrecto").fadeIn("slow");
+				  	  		$("#cambioCorrecto").fadeOut(2500, function(){
+				  	  			$location.path('/');
+				  	  			$scope.$apply();				  	  			
+				  	  		}); // Sorry :(
+				  	  		
+					  	}
+					  }).
+					  error(function(data, status, headers, config) {
+					  	alert('Ocurrio un error, intenta de nuevo');
+					  });
+			  	}else{
+			  		$scope.alert.datosMal = 1
+			  	}
+			  }).
+			  error(function(data, status, headers, config) {
+			  	alert('Ocurrio un error, intenta de nuevo');
+			  });
+			
+
+		}else{
+			$scope.alert.youShallNoPass = 1;
+		}
+		
+	};
+
+}]);
 

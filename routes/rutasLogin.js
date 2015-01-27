@@ -40,7 +40,7 @@ rutasLogin.route('/checkUser/:user')
 	var pass = req.body.pass;
 	var tipoUsuario = req.params.user;
 
-	console.log(tipoUsuario);
+	//console.log(tipoUsuario);
 
 	if (tipoUsuario === "rac") {
 		var query = "SELECT *, MD5(now()) as clave FROM login.asesores where email = '" + 
@@ -52,7 +52,7 @@ rutasLogin.route('/checkUser/:user')
 		var query = "SELECT * FROM bd_cded_cde_pda.coordinadores_db where Correo = '" + 
 					email + "' and pass = '" + pass + "'";
 	}else{
-		if (err){res.status(400).json({status: '400'});return;}
+		res.status(400).json({status: '400'});return;
 	}
 
 	pool.query(query, function(err, rows, fields) {

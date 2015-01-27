@@ -57,20 +57,7 @@ rutasAdmin.route('/rac')
 		res.json(rows);
 	});
 
-	console.log(put);
-});
-
-rutasAdmin.route('/rac/:id')
-.delete(function(req, res){
-	var id = req.params.id;
-
-	var query = "DELETE  FROM login.asesores where ID = " + id;
-	
-	var query = pool.query(query , function(err, rows, fields) {
-	  	if (err){res.status(400).json({status: '400'});return;}
-	  	res.json(rows);
-	});
-
+	//console.log(put);
 });
 
 rutasAdmin.route('/registro')
@@ -95,5 +82,63 @@ rutasAdmin.route('/registro')
 	}
 });
 
+rutasAdmin.route('/racUpDate/:user')
+.put(function(req, res){
+	var put = req.body;
+	var tipoUsuario = req.params.user;
+
+	if (tipoUsuario === "rac") {
+			pool.query('UPDATE login.asesores SET ? WHERE email = ?', [put, put.email] , 
+				function(err, rows, fields) {
+					if (err){res.status(400).json({status: '400'});return;}
+					res.json(rows);
+				});
+
+	}else if (tipoUsuario === "coor") {
+		var correo = {};
+		correo.pass = put.pass;
+
+		pool.query('UPDATE bd_cded_cde_pda.coordinadores_db SET ? WHERE Correo = ?', [correo, put.email] , 
+		function(err, rows, fields) {
+			if (err){res.status(400).json({status: '400'});return;}
+			res.json(rows);
+		});
+	}else if (tipoUsuario === "admin") {
+		var correo = {};
+		correo.pass = put.pass;
+
+		pool.query('UPDATE bd_cded_cde_pda.administradores SET ? WHERE Correo = ?', [correo, put.email] , function(err, rows, fields) {
+			if (err){res.status(400).json({status: '400'});return;}
+			res.json(rows);
+		});
+	}else{
+		res.status(400).json({status: '400'});return;
+	}
+
+	
+});
+// rutasAdmin.route('/coorUpDate')
+// .put(function(req, res){
+// 	var put = req.body;
+// 	var correo = {};
+// 	correo.pass = put.pass;
+
+// 	pool.query('UPDATE bd_cded_cde_pda.coordinadores_db SET ? WHERE Correo = ?', [correo, put.email] , 
+// 		function(err, rows, fields) {
+// 			if (err){res.status(400).json({status: '400'});return;}
+// 			res.json(rows);
+// 		});
+// });
+// rutasAdmin.route('/adminUpDate')
+// .put(function(req, res){
+// 	var put = req.body;
+// 	var correo = {};
+// 	correo.pass = put.pass;
+
+// 	var query = pool.query('UPDATE bd_cded_cde_pda.administradores SET ? WHERE Correo = ?', [correo, put.email] , function(err, rows, fields) {
+// 		if (err){res.status(400).json({status: '400'});return;}
+// 		res.json(rows);
+// 	});
+// });
 
 module.exports = rutasAdmin;

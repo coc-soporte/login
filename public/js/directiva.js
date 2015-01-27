@@ -7,7 +7,7 @@ angular.module('components', [])
 
 			scope.busqueda = "";
 			scope.seleccionado = {};
-			scope.formulario = {};
+			//scope.formulario = {};
 			scope.placeholder = attrs.placeholder;
 			scope.showSeleccion = true;
 			scope.focus = false;
@@ -41,6 +41,7 @@ angular.module('components', [])
 				//console.log("documenttt");
 	        	scope.$apply(function(){
 	        		scope.focus = false;
+	        		scope.busqueda = "";
 	        	});
 	      	});
 		}
