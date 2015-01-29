@@ -23,9 +23,9 @@
 	<tbody>
 		<tr ng-repeat="datoRegistro in datosRegistro">
 			<td>{{datoRegistro.email}}</td>
-			<td>{{datoRegistro.log}}</td>
+			<td>{{datoRegistro.log | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 			<td>{{datoRegistro.rol}}</td>
-			<td>{{datoRegistro.inout}}</td>
+			<td>{{datoRegistro.in_out}}</td>
 		</tr>
 	</tbody>
 </table>

@@ -23,7 +23,7 @@
 			<td>{{rac.email}}</td>
 			<td>{{rac.celular}}</td>
 			<td>{{rac.estado}}</td>
-			<td>{{rac.log}}</td>
+			<td>{{rac.log | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 			<td><button class="btn btn-primary" ng-click="editForm(rac.id)" data-toggle="modal" data-target="#modal-rac">editar</button></td>
 		</tr>
 	</tbody>
