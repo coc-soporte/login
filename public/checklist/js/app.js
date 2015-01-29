@@ -32,6 +32,10 @@ angular
 			.when('/ie/:ie', {
 				templateUrl: 'views/ie.html'
 			})
+			.when('/socket/io', {
+				templateUrl: 'views/socket.html',
+				controller: 'socketCtrl'
+			})
 			.otherwise({
 				redirectTo: '/'
 			});

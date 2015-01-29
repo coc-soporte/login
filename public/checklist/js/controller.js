@@ -19,7 +19,21 @@
   return rv;
 }
 
+var socket = io();
+
  angular.module('marcado')
+ .controller('socketCtrl', ['$scope', '$http', '$location', '$routeParams', function($scope, $http, $location, $routeParams){
+ 	
+ 	$scope.hello = 'hello world';
+
+ 	socket.on('chatMessage', function(msg){
+ 		$scope.msg = msg;
+		$scope.$apply();
+		console.log(msg);
+
+	});
+
+ }])
  .controller('CheckCtrl', ['$scope', '$http', '$location', '$routeParams', function ($scope, $http, $location, $routeParams) {
 
  	//---------------------- Check Navegador ------------------------
@@ -311,6 +325,9 @@
 	    //$http.post('http://10.66.6.241:82/code-dev/analytics/insertChecklist', checkData).
 	   	$http.post('http://10.66.6.241:3000/check/checkListCDE', checkData).
 			success(function(data, status, headers, config) {
+
+		/****/	socket.emit('chatMessage', 'Se envio Form');//********
+
 				$scope.enviado = 1;
 				$scope.disableBotonSubmit2 = 0;
 				localStorage.setItem("enviado", 1);
