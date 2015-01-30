@@ -2,6 +2,8 @@ var express = require('express');
 
 var app = express();
 var http = require('http').Server(app);
+
+// variables globales de Socket.io
 var io = require('socket.io')(http);
 
 var bodyParser = require('body-parser');
@@ -23,16 +25,10 @@ app.use('/admin', rutasAdmin);
 var rutasCheck = require('./routes/rutasCheck');
 app.use('/check', rutasCheck);
 
-
-io.on('connection', function(socket){
-  console.log('a user connected');
-
-  socket.on('chatMessage', function(msg){
-  	console.log('message: ' + msg);
-  	io.emit('chatMessage', msg);
-  });
-
-});
+//************************
+var checkSocket = require('./socket/checkSocket');
+checkSocket(io);
+//**************************
 
 http.listen(3001, function(){
 	console.log('Listen on Port 3001');

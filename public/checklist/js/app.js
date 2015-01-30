@@ -32,7 +32,7 @@ angular
 			.when('/ie/:ie', {
 				templateUrl: 'views/ie.html'
 			})
-			.when('/socket/io', {
+			.when('/checklist/8deedcd3508f2d84eafb4317e4dfb1ee', {
 				templateUrl: 'views/socket.html',
 				controller: 'socketCtrl'
 			})

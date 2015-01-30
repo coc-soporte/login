@@ -2,6 +2,7 @@
 
 /**
  * @name lenninlasd@gmail.com 
+ 	keygenerator: 8deedcd3508f2d84eafb4317e4dfb1ee
  */
 
  function getInternetExplorerVersion()
@@ -26,7 +27,7 @@ var socket = io();
  	
  	$scope.hello = 'hello world';
 
- 	socket.on('chatMessage', function(msg){
+ 	socket.on('checkMessageOut', function(msg){
  		$scope.msg = msg;
 		$scope.$apply();
 		console.log(msg);
@@ -326,7 +327,8 @@ var socket = io();
 	   	$http.post('http://10.66.6.241:3000/check/checkListCDE', checkData).
 			success(function(data, status, headers, config) {
 
-		/****/	socket.emit('chatMessage', 'Se envio Form');//********
+				// Emite el mensaje al servidor de que se subio el checklist correctamente
+		/****/	socket.emit('checkMessageIn', 'Se envio Form');//********
 
 				$scope.enviado = 1;
 				$scope.disableBotonSubmit2 = 0;
