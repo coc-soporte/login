@@ -18,7 +18,18 @@ var ioConect = function(io){
 
 		  socket.on('checkMessageIn', function(msg){
 
-		  	var query = "SELECT * FROM bd_cded_cde_pda.checklist order by ch_log desc limit 10";
+		  // 	var query = "SELECT * FROM bd_cded_cde_pda.checklist " +
+				// "join (SELECT Cod_Pos, Regional, Tienda FROM bd_cded_cde_pda.tiendas) as tienda " +
+				// "ON ch_codPos = Cod_Pos " + 
+				// "where cast(ch_log as date) = curdate() order by Regional, Tienda";
+
+			// Esta Consulta selectiona el checklist mas reciente de cada CDE
+			var query = "SELECT * FROM bd_cded_cde_pda.checklist AS checklist " +
+						"JOIN (	SELECT MAX(ch_log) as Max_ch_log FROM bd_cded_cde_pda.checklist where cast(ch_log as date) = curdate() GROUP BY ch_codPos) d " +
+						"ON ch_log = Max_ch_log " +
+						"join (SELECT Cod_Pos, Regional, Tienda FROM bd_cded_cde_pda.tiendas) as tienda " +
+						"ON ch_codPos = Cod_Pos " +
+						"order by Regional, Tienda";
 	 	
 		 	pool.query(query , function(err, rows, fields) {
 		 		if (err){

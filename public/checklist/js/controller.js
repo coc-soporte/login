@@ -2,7 +2,7 @@
 
 /**
  * @name lenninlasd@gmail.com 
- 	keygenerator: 8deedcd3508f2d84eafb4317e4dfb1ee
+	keygenerator: 8deedcd3508f2d84eafb4317e4dfb1ee
  */
 
  function getInternetExplorerVersion()
@@ -12,10 +12,10 @@
   var rv = -1; // Return value assumes failure.
   if (navigator.appName == 'Microsoft Internet Explorer')
   {
-    var ua = navigator.userAgent;
-    var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
-    if (re.exec(ua) != null)
-      rv = parseFloat( RegExp.$1 );
+	var ua = navigator.userAgent;
+	var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+	if (re.exec(ua) != null)
+	  rv = parseFloat( RegExp.$1 );
   }
   return rv;
 }
@@ -24,27 +24,86 @@ var socket = io();
 
  angular.module('marcado')
  .controller('socketCtrl', ['$scope', '$http', '$location', '$routeParams', function($scope, $http, $location, $routeParams){
- 	
- 	$scope.hello = 'hello world';
+	
+	$scope.helloSw = 0;
 
- 	socket.on('checkMessageOut', function(msg){
- 		$scope.msg = msg;
+	$scope.datos = {
+			id: 1,
+			nombrePrincipal: 'Une-Tigo',
+			logo: '',
+			enlaces: [
+				{link: 'http://10.66.6.241:82/code-dev/gtr', nombre: 'GTR'},
+				{link: 'http://10.66.6.241:82/code-dev/analytics/index/0', nombre: 'Analytics'},
+				{link: 'http://10.66.6.241:82/code-dev/app/', nombre: 'Reportes'},
+				{link: 'http://10.66.6.241:82/code-dev/app/#/sms', nombre: 'Directorio SMS'},
+				{link: '#/checklist/8deedcd3508f2d84eafb4317e4dfb1ee', nombre: 'Checklist'}
+			],
+			collapse:[
+				{link: '', nombre: 'Ayuda'}
+			]			
+		};
+
+	$http.get('http://10.66.6.241:3001/check/checkListCDEbyDate').
+	  success(function(data, status, headers, config) {
+	  		$scope.listas = data;
+	  		crarTagRegional($scope.listas);
+	  		console.log($scope.listas);
+	  }).
+	  error(function(data, status, headers, config) {
+	  	alert("Ocurrió un problema, por favor intenta de nuevo.");
+	  });
+
+	socket.on('checkMessageOut', function(msg){
+		$scope.listas = msg;
+		crarTagRegional($scope.listas);
 		$scope.$apply();
-		console.log(msg);
+		console.log($scope.listas);
 
 	});
+
+	function crarTagRegional(coleccion){
+		_.each(coleccion, function(obj){ 
+			if (obj.Regional == 'Oriente' || obj.Regional == 'Suroccidente') {
+				obj.tag = 'Oriente Suroccidente';
+			}else{
+				obj.tag = obj.Regional;
+			}
+		});
+	}
+
+	$scope.fadeHeader = function(){
+		if ($scope.helloSw == 0) {
+			$scope.helloSw = 1;
+			$('#header1').fadeIn(100);
+		}else{
+			$scope.helloSw = 0;
+			$('#header1').fadeOut(100);
+		}
+		
+	};
+	$scope.JSONparse = function(obj){
+		return JSON.parse(obj);
+	};
+
+	$scope.alertClass = function(num){
+		if (num == 2) {
+			return 'bg-warning2';
+		}else if (num > 2){
+			return 'bg-danger2';
+		}
+	};
 
  }])
  .controller('CheckCtrl', ['$scope', '$http', '$location', '$routeParams', function ($scope, $http, $location, $routeParams) {
 
- 	//---------------------- Check Navegador ------------------------
+	//---------------------- Check Navegador ------------------------
 
- 	if (getInternetExplorerVersion() != "-1") {
- 		location.href('/checklist/ie.html');
- 		console.log('es ie');
- 	}else{
- 		console.log('no es ie');
- 	}
+	if (getInternetExplorerVersion() != "-1") {
+		location.href('/checklist/ie.html');
+		console.log('es ie');
+	}else{
+		console.log('no es ie');
+	}
 
 	// ---------------------- End  Check Navegador -------------------
 	$scope.datas = [];
@@ -321,10 +380,10 @@ var socket = io();
 		checkData.ch_otro = JSON.stringify($scope.otraData);
 		$scope.disableBotonSubmit2 = 1;
 
-	    console.log(checkData);
+		console.log(checkData);
 
-	    //$http.post('http://10.66.6.241:82/code-dev/analytics/insertChecklist', checkData).
-	   	$http.post('http://10.66.6.241:3000/check/checkListCDE', checkData).
+		//$http.post('http://10.66.6.241:82/code-dev/analytics/insertChecklist', checkData).
+		$http.post('http://10.66.6.241:3000/check/checkListCDE', checkData).
 			success(function(data, status, headers, config) {
 
 				// Emite el mensaje al servidor de que se subio el checklist correctamente

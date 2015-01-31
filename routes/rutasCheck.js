@@ -1,5 +1,6 @@
 var express = require('express');
 var mysql = require('mysql');
+var moment = require('moment');
 var _ = require("underscore");
 
 var rutasCheck = express.Router();
@@ -70,6 +71,40 @@ rutasCheck.route('/checkListCDE')
 	}else{
 		res.status(404).json({status: '404'});
 	}
+});
+
+rutasCheck.route('/checkListCDEbyDate')
+.get(function(req, res){
+
+	var date = req.query.date;
+	if (_.size(date) == 0) {
+		date = "curdate()"
+	}else if(moment(date)._d == "Invalid Date"){
+		res.status(400).json({status: '400', mgs: 'Invalid Date'});return;
+	}else{
+		date = "'" + date + "'";
+	}
+
+	// var query = "SELECT * FROM bd_cded_cde_pda.checklist " +
+	// 			"join (SELECT Cod_Pos, Regional, Tienda FROM bd_cded_cde_pda.tiendas) as tienda " +
+	// 			"ON ch_codPos = Cod_Pos " + 
+	// 			"where cast(ch_log as date) = " + date + " order by Regional, Tienda";
+
+	var query = "SELECT * FROM bd_cded_cde_pda.checklist AS checklist " +
+				"JOIN (	SELECT MAX(ch_log) as Max_ch_log FROM bd_cded_cde_pda.checklist where cast(ch_log as date) = " + date + " GROUP BY ch_codPos) d " +
+				"ON ch_log = Max_ch_log " +
+				"join (SELECT Cod_Pos, Regional, Tienda FROM bd_cded_cde_pda.tiendas) as tienda " +
+				"ON ch_codPos = Cod_Pos " +
+				"order by Regional, Tienda";
+	 
+	pool.query(query , function(err, rows, fields) {
+		if (err){
+			res.status(404).json(err);
+			return;
+		}		 		
+		res.json(rows);
+	});
+	
 });
 
 // Consulta de lista de checklist:

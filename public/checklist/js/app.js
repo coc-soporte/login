@@ -11,7 +11,8 @@
 angular
 	.module('marcado', [
 		'ngRoute',
-		'components',		
+		'components',
+		'AppNavbar'		
 	])
 	.config(function ($routeProvider) {
 		$routeProvider
