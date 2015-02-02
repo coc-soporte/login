@@ -30,6 +30,6 @@ var checkSocket = require('./socket/checkSocket');
 checkSocket(io);
 //**************************
 
-http.listen(3001, function(){
-	console.log('Listen on Port 3001');
+http.listen(3000, function(){
+	console.log('Listen on Port 3000');
 });

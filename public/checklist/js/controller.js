@@ -47,6 +47,7 @@ var socket = io();
 	  success(function(data, status, headers, config) {
 	  		$scope.listas = data;
 	  		crarTagRegional($scope.listas);
+	  		$scope.fechaActualizacion = moment().format('MMMM Do YYYY, h:mm:ss a');
 	  		console.log($scope.listas);
 	  }).
 	  error(function(data, status, headers, config) {
@@ -56,6 +57,7 @@ var socket = io();
 	socket.on('checkMessageOut', function(msg){
 		$scope.listas = msg;
 		crarTagRegional($scope.listas);
+		$scope.fechaActualizacion = moment().format('MMMM Do YYYY, h:mm:ss a') + ' by Socket';
 		$scope.$apply();
 		console.log($scope.listas);
 
