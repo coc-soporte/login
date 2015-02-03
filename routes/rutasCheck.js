@@ -91,8 +91,8 @@ rutasCheck.route('/checkListCDEbyDate')
 	// 			"where cast(ch_log as date) = " + date + " order by Regional, Tienda";
 
 	var query = "SELECT * FROM bd_cded_cde_pda.checklist AS checklist " +
-				"JOIN (	SELECT MAX(ch_log) as Max_ch_log FROM bd_cded_cde_pda.checklist where cast(ch_log as date) = " + date + " GROUP BY ch_codPos) d " +
-				"ON ch_log = Max_ch_log " +
+				"JOIN (	SELECT ch_codPos as ch_codPos2, MAX(ch_log) as Max_ch_log FROM bd_cded_cde_pda.checklist where cast(ch_log as date) = " + date + " GROUP BY ch_codPos) d " +
+				"ON ch_log = Max_ch_log and d.ch_codPos2 = checklist.ch_codPos " +
 				"join (SELECT Cod_Pos, Regional, Tienda FROM bd_cded_cde_pda.tiendas) as tienda " +
 				"ON ch_codPos = Cod_Pos " +
 				"order by Regional, Tienda";

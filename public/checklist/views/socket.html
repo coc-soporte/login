@@ -11,6 +11,7 @@
 					<tr style="background-color: #E61950;color: #ffffff;">
 						<th class="text-center">CDE</th>
 						<th class="text-center">Contr</th>
+						<th class="text-center">Modelo</th>
 						<th class="text-center">AP</th>
 						<th class="text-center">SegTur</th>
 						<th class="text-center">TerTur</th>
@@ -33,6 +34,7 @@
 							<strong>{{lista.Tienda}}</strong>
 						</td>
 						<td><strong>{{lista.ch_contratados}}</strong></td>
+						<td><strong>{{lista.ch_DM + lista.ch_GB + lista.ch_LZ + lista.ch_orientador}}</strong></td>
 						<td><strong>{{lista.ch_apertura}}</strong></td>
 						<td><strong>{{lista.ch_segTurno}} ({{JSONparse(lista.ch_otro).ch_horaSegTurno}})</strong></td>
 						<td><strong>{{lista.ch_terTurno}} ({{JSONparse(lista.ch_otro).ch_horaTerTurno}})</strong></td>

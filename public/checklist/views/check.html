@@ -47,7 +47,7 @@
 	<div class="text-right" ng-hide="session"><a href="" ng-click="logOut()">cerrar sesión</a></div>
 	
 
-	<form ng-hide="session">	
+	<form ng-hide="session" ng-submit="setChecklistForm()">	
 		<div class="row" style="margin-top: 30px">
 			<div class="row">
 				<div  class="col-md-11 col-xs-11" ng-class="showForm !== 1 ? 'transparente' : sucion">			
@@ -105,9 +105,9 @@
 				<div class="col-md-6 col-xs-6 col-md-offset-4 col-xs-offset-4" style="margin-top: 2%">
 					<div class="btn-group" role="group">
 						<button type="button" class="btn btn-lg btn-default disabled">{{asesores.enCDE}} RACs en CDE</button>
-						<button type="button" class="btn btn-lg btn-success" ng-click="eventos(2)" ng-disabled="showForm !== 1"> 
+						<a type="button" class="btn btn-lg btn-success" ng-click="eventos(2)" ng-disabled="showForm !== 1"> 
 							Siguiente
-						</button>
+						</a>
 					</div>					
 				</div>
 				
@@ -132,7 +132,7 @@
 			</div>
 
 			<div class="row">
-				<button class="btn btn-default btn-lg col-md-1 col-md-offset-1 col-xs-1 col-xs-offset-1" ng-click="eventos(1)" ng-disabled="showForm !== 2">atrás</button>
+				<a class="btn btn-default btn-lg col-md-1 col-md-offset-1 col-xs-1 col-xs-offset-1" ng-click="eventos(1)" ng-disabled="showForm !== 2">atrás</a>
 				<div class="col-md-1 col-xs-1">
 					<div class="form-control input-lg" readonly>{{asesores.enCDE}}</div>
 				</div>	
@@ -156,7 +156,7 @@
 					<input ng-disabled="showForm !== 2" type="number" ng-model="checkData.ch_LZ" class="form-control input-lg" min="0">
 				</div>
 
-				<button class="btn btn-lg" ng-class="buttonClass" ng-click="eventos(3)" ng-disabled="modeloFunction()">{{asesores.modeloManual}} Siguiente</button>
+				<a class="btn btn-lg" ng-class="buttonClass" ng-click="eventos(3)" ng-disabled="modeloFunction()">{{asesores.modeloManual}} Siguiente</a>
 			</div>
 		</div>
 
@@ -197,19 +197,19 @@
 
 				<!-- *************** Segundo Turno ********************* -->
 				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
-					<input ng-disabled="showForm !== 3" type="number" class="form-control input-lg" min="0" ng-model="checkData.ch_segTurno">
+					<input required ng-disabled="showForm !== 3" type="number" class="form-control input-lg" min="0" ng-model="checkData.ch_segTurno">
 				</div>
 				<div class="col-md-1 col-xs-1" style="padding-left: 0px;">
-					<input style="font-size:1em;padding: 4px;" ng-disabled="showForm !== 3" type="text" placeholder="hora" class="datetimepicker1 form-control input-lg" min="0" ng-model="otraData.ch_horaSegTurno">
+					<input ng-required="formVal.requiredSt" style="font-size:1em;padding: 4px;" ng-disabled="!formVal.requiredSt" type="text" placeholder="hora" class="datetimepicker1 form-control input-lg" min="0" ng-model="otraData.ch_horaSegTurno">
 				</div>
 				<!-- *************** END Segundo Turno ********************* -->
 
 <!-- 				*************** Tercer Turno ********************* -->
 				<div class="col-md-1 col-xs-1" style="padding-right: 0px;padding-left: 0px;">
-					<input ng-disabled="showForm !== 3" type="number" class="form-control input-lg" min="0" ng-model="checkData.ch_terTurno">
+					<input required ng-disabled="showForm !== 3" type="number" class="form-control input-lg" min="0" ng-model="checkData.ch_terTurno">
 				</div>
 				<div class="col-md-1 col-xs-1" style="padding-left: 0px;">
-					<input style="font-size:1em;padding: 4px;" ng-disabled="showForm !== 3" type="text" placeholder="hora" class="datetimepicker1 form-control input-lg" min="0" ng-model="otraData.ch_horaTerTurno">
+					<input ng-required="formVal.requiredTt" style="font-size:1em;padding: 4px;" ng-disabled="!formVal.requiredTt" type="text" placeholder="hora" class="datetimepicker1 form-control input-lg" min="0" ng-model="otraData.ch_horaTerTurno">
 				</div>
 <!-- 				*************** END Tercer Turno ********************* -->
 
@@ -217,7 +217,7 @@
 					<textarea placeholder="Observaciones" ng-model="checkData.ch_observaciones" class="form-control" rows="3"
 					style="resize:vertical"></textarea>
 				</div>
-				<button class="btn btn-lg col-md-1 col-xs-1" ng-class="buttonClass2" ng-click="setChecklistForm()" ng-disabled="distribucionFunction() || disableBotonSubmit2">
+				<button type="submit" class="btn btn-lg col-md-1 col-xs-1" ng-class="buttonClass2"  ng-disabled="distribucionFunction() || disableBotonSubmit2">
 					<span ng-hide="disableBotonSubmit2">{{asesores.atencionDist}} Enviar </span>				
 					<i ng-show="disableBotonSubmit2" class="fa fa-spinner fa-spin"></i>
 				</button>

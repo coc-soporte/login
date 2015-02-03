@@ -160,6 +160,8 @@ var socket = io();
 	$scope.alert.cde = 0;
 	$scope.alert.datosMal = 0;
 	$scope.checkData = {};
+
+	$scope.formVal = {};
 	
 	$scope.otraData = {};
 	$scope.otraDataCopia = {};
@@ -336,7 +338,7 @@ var socket = io();
 										+ $scope.checkData.ch_SL
 										+ $scope.checkData.ch_DM
 										+ $scope.checkData.ch_GB
-										+ $scope.checkData.ch_LZ;
+										+ $scope.checkData.ch_LZ;		
 	};
 
 	$scope.modeloFunction = function(){
@@ -357,11 +359,23 @@ var socket = io();
 		$scope.asesores.atencionDist = $scope.checkData.ch_apertura 
 									   + $scope.checkData.ch_segTurno + $scope.checkData.ch_terTurno;
 
+		//Valida que las horas de segundos turnos se habiliten si esotos se ingrezan.
+		if ($scope.checkData.ch_segTurno) {
+			$scope.formVal.requiredSt = true;
+			if ($scope.checkData.ch_terTurno) {
+				$scope.formVal.requiredTt = true;
+			}else{$scope.formVal.requiredTt = false;}
+		}else{
+			$scope.formVal.requiredSt = false;
+			$scope.formVal.requiredTt = false;}
+
 		if ($scope.asesores.enAtencion === $scope.asesores.atencionDist 
 			&& $scope.asesores.enCDE === $scope.asesores.modeloManual 
 			&& $scope.asesores.atencionDist > 0
 			&& (!_.isEqual($scope.checkDataCopia, $scope.checkData)	|| 
-				!_.isEqual($scope.otraDataCopia, $scope.otraData)) ){ 			
+				!_.isEqual($scope.otraDataCopia, $scope.otraData)) 
+
+			){ 			
 			
 			$scope.buttonClass2 = 'btn-success';
 			return false;
