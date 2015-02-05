@@ -34,7 +34,7 @@ var ioConect = function(io){
 		 		io.emit('checkMessageOut', rows);
 		 	});
 			  	
-		  	console.log('message: ' + msg);  
+		  	//console.log('message: ' + msg);  
 
 		  });
 

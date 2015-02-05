@@ -43,7 +43,7 @@ var socket = io();
 			]			
 		};
 
-	$http.get('http://10.66.6.241:3001/check/checkListCDEbyDate').
+	$http.get('http://10.66.6.241:3000/check/checkListCDEbyDate').
 	  success(function(data, status, headers, config) {
 	  		$scope.listas = data;
 	  		crarTagRegional($scope.listas);
