@@ -117,7 +117,7 @@ var socket = io();
 		// Si existe el registro en el localStorage, el registro se actualizará, y luego se actualiza el mysql
 		// Si no se tomara la info de la BD de MySql, se almacenará en el local
 		//console.log($scope.datas);
-		console.log(_.where($scope.datas, {nombre: "087 TIGO OCEAN MALL 2"}));
+		//console.log(_.where($scope.datas, {nombre: "087 TIGO OCEAN MALL 2"}));
 		if (inicio == 1) {return}
 		
 		if ($scope.datas !== null) {
@@ -127,10 +127,10 @@ var socket = io();
 			$http.get('http://10.66.6.241:82/code-dev/analytics/getIPS').success(function(data) {				
 				var stringifyData = JSON.stringify(data);				
 				localStorage.setItem("ipList", stringifyData);
-				$http.post('http://10.66.6.241:82/code-dev/analytics/setIPSmysql', data);
+				$http.post('http://10.66.6.241:3000/check/ipsMysql', data);
 			});
 		}else{
-			$http.get('http://10.66.6.241:82/code-dev/analytics/getIPSmysql').success(function(data) {
+			$http.get('http://10.66.6.241:3000/check/ipsMysql').success(function(data) {
 				$scope.datas = data;
 				localStorage.setItem("ipList", JSON.stringify(data));
 			});

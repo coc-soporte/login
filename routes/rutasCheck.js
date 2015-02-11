@@ -85,11 +85,6 @@ rutasCheck.route('/checkListCDEbyDate')
 		date = "'" + date + "'";
 	}
 
-	// var query = "SELECT * FROM bd_cded_cde_pda.checklist " +
-	// 			"join (SELECT Cod_Pos, Regional, Tienda FROM bd_cded_cde_pda.tiendas) as tienda " +
-	// 			"ON ch_codPos = Cod_Pos " + 
-	// 			"where cast(ch_log as date) = " + date + " order by Regional, Tienda";
-
 	var query = "SELECT * FROM bd_cded_cde_pda.checklist AS checklist " +
 				"JOIN (	SELECT ch_codPos as ch_codPos2, MAX(ch_log) as Max_ch_log FROM bd_cded_cde_pda.checklist where cast(ch_log as date) = " + date + " GROUP BY ch_codPos) d " +
 				"ON ch_log = Max_ch_log and d.ch_codPos2 = checklist.ch_codPos " +
@@ -107,11 +102,31 @@ rutasCheck.route('/checkListCDEbyDate')
 	
 });
 
-// Consulta de lista de checklist:
-// SELECT * FROM bd_cded_cde_pda.checklist 
-// join (SELECT Cod_Pos, Regional, Tienda FROM bd_cded_cde_pda.tiendas) as cdss
-// ON ch_codPos = Cod_Pos
-// where cast(ch_log as date) = cast(now() as date)
+rutasCheck.route('/ipsMysql')
+.get(function(req, res){
 
+	var query = "SELECT iplist FROM bd_cded_cde_pda.iplist";
+	pool.query(query , function(err, rows, fields) {
+		if (err){
+			res.status(404).json(err);
+			return;
+		}
+		//console.log();
+		//res.type('text');	
+		res.json(JSON.parse(rows[0]['iplist']));
+	});
+
+})
+.post(function(req, res){
+
+	var put = JSON.stringify(req.body);
+	var data = {'iplist': put};
+	//console.log(JSON.stringify(put));
+	var query = pool.query('UPDATE bd_cded_cde_pda.iplist SET ? WHERE id = 1', [data] , function(err, rows, fields) {
+		if (err){res.status(400).json({status: '400'});return;}
+		res.json(rows);
+	});
+
+});
 
 module.exports = rutasCheck;
