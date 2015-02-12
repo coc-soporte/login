@@ -83,10 +83,24 @@ rutasAdmin.route('/registro')
 });
 
 rutasAdmin.route('/racUpDate/:user')
+.get(function(req, res){
+	
+	var tipoUsuario = req.params.user;
+	var email = req.query.email;
+
+	if (tipoUsuario === "rac") {
+
+		var query = "SELECT * FROM login.asesores where email = '" + email + "'";
+		pool.query(query, function(err, rows, fields) {
+		  	if (err) throw err;
+		  	res.json(rows);
+		});
+	}
+})
 .put(function(req, res){
 	var put = req.body;
 	var tipoUsuario = req.params.user;
-
+	console.log(put);
 	if (tipoUsuario === "rac") {
 			pool.query('UPDATE login.asesores SET ? WHERE email = ?', [put, put.email] , 
 				function(err, rows, fields) {

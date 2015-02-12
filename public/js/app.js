@@ -39,6 +39,10 @@ angular
 				templateUrl: 'views/cambiarpass.html',
 				controller: 'cambiarpassCtrl'
 			})
+			.when('/resetpass', {
+				templateUrl: 'views/resetpass.html',
+				controller: 'resetpassCtrl'
+			})
 			.otherwise({
 				redirectTo: '/'
 			});

@@ -321,5 +321,52 @@
 		
 	};
 
+}])
+.controller('resetpassCtrl', ['$scope', '$http', 'Rac', '$routeParams', '$location', 
+									function($scope, $http, Rac, $routeParams, $location){
+	$scope.alert = {};
+	$scope.formulario = {}
+	$scope.alert.datosMal = 0;
+
+	$scope.resetPassForm = function(){
+
+		console.log($scope.formulario);
+
+		var hash = CryptoJS.MD5(moment().toISOString());
+
+		var dataUp = {email: $scope.formulario.email,
+						pass: hash.toString().slice(0, 8)};
+
+		$http.put('http://10.66.6.241:3000/admin/racUpDate/' + $scope.formulario.tipouser, dataUp).
+			success(function(data, status, headers, config) {
+				if (data.affectedRows == 0) {
+					$scope.alert.datosMal = 1
+				
+				}else if (data.affectedRows == 1) {
+
+					$http.get('http://10.66.6.241:3000/admin/racUpDate/rac?email=' + $scope.formulario.email)
+					  .success(function(data, status, headers, config) {
+					  	console.log(data[0]);
+					  	var url = "http://10.65.136.19:13013/cgi-bin/sendsms?to=" + data[0].celular + "&username=foo&password=bar&text=" + data[0].pass + "&from=reset pass";
+					  	$http.get(url);
+
+					  	$scope.formulario = {};
+						$("#cambioCorrecto").fadeIn("slow");
+						$("#cambioCorrecto").fadeOut(10000, function(){
+							$location.path('/');
+							$scope.$apply();  	  			
+						}); // Sorry :(
+
+					  })
+					  .error(function(data, status, headers, config) {});
+					//var url = "http://10.65.136.19:13013/cgi-bin/sendsms?to=" + data.celular + "&username=foo&password=bar&text=" + dataLocal.key + "&from=log" + dataLocal.in_out;
+		  			//$http.get(url);
+				}
+			}).
+			error(function(data, status, headers, config) {
+				alert('Ocurrio un error, intenta de nuevo');
+			});
+		
+	};	
 }]);
 

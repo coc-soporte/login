@@ -1,0 +1,54 @@
+		<div class="alert alert-success" role="alert" id="cambioCorrecto" style="display:none">
+			<h3 class="text-center"><strong>Contraseña cambiada correctamente</strong></h3>
+			<p class="text-center">Te llegará al un sms con tu nueva contraseña.</p>
+		</div>
+
+		<form ng-submit="resetPassForm()">
+			<div class="form-group" style="padding-top: 35px;">
+			
+				<div ng-show="1">
+					<div class="col-md-4 col-md-offset-4" style="margin-top: 20px">
+						<input type="email" ng-model="formulario.email" class="form-control input-lg input-lg text-center" placeholder="Email Usuario" required>
+					</div>
+			
+					<div class="col-md-4 col-md-offset-4" style="margin-top: 15px">
+						<div class="row">
+							<div class="col-md-3">
+							  <label>
+							    <input type="radio" required name="optionsRadios" id="optionsRadios1" ng-model="formulario.tipouser" value="rac" checked>
+							    Asesor
+							  </label>
+							</div>
+							<div class="col-md-4" style="padding-left: 0px;">
+							  <label>
+							    <input type="radio" required name="optionsRadios" id="optionsRadios2" ng-model="formulario.tipouser" value="coor">
+							    Coordinador
+							  </label>
+							</div>
+							<div class="col-md-5">
+							  <label>
+							    <input type="radio" required name="optionsRadios" id="optionsRadios3" ng-model="formulario.tipouser" value="admin">
+							    Administrador
+							  </label>
+							</div>
+						</div>
+					</div>	
+				</div>
+				
+				<div class="col-md-4 col-md-offset-4" style="margin-top: 10px">
+					<button ng-disabled="disableBotonSubmit" type="submit" class="btn btn-lg btn-block btn-success">
+						<span ng-hide="disableBotonSubmit">Cambiar contraseña</span>
+						<i ng-show="disableBotonSubmit" class="fa fa-spinner fa-spin"></i>
+					</button>
+				</div>
+				
+				<div class="col-md-4 col-md-offset-7" style="margin-top: 10px">
+					<a href="/#/">Cancelar</a>
+				</div>
+				
+			</div>
+
+			<div class="alert alert-danger col-md-4 col-md-offset-4" ng-show="alert.datosMal" role="alert">
+				<strong>El correo no esta registrado o no corresponde al rol seleccionado.</strong>
+			</div>
+		</form>
