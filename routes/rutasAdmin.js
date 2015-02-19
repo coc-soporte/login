@@ -40,8 +40,14 @@ rutasAdmin.route('/rac')
 	//console.log(_.size(post));
 
 	if (_.size(post) > 0) {
+
 			var query = pool.query('INSERT INTO login.asesores SET ?', post , function(err, rows, fields) {
-			if (err){res.status(400).json({status: '400'});return;}
+				if (err){
+					res.status(400).json({status: '400'});
+					//console.log(err);
+					return;
+				}
+
 				res.json(rows);
 			});
 	}else{
@@ -60,18 +66,35 @@ rutasAdmin.route('/rac')
 	//console.log(put);
 });
 
+rutasAdmin.route('/rac/:id')
+.delete(function(req, res){
+	var racId = req.params.id;
+
+	pool.query('DELETE FROM login.asesores where id = ' + racId, function(err, rows, fields) {
+		if (err){res.status(400).json({status: '400'});return;}
+		res.json(rows);
+	});
+});
+
 rutasAdmin.route('/registro')
 .get(function(req, res){
 
 	var Cod_Pos = req.query.codpos;
 	var date = req.query.date;
+	var cedula = req.query.cedula;
+	var maxRegistro = req.query.maxregistro;
 
 	if (_.size(Cod_Pos) > 0) {
 
 		// Si no hay fecha, la fecha por defecto será la actual
 		if (_.size(date) > 0) {date = "'" + date + "'"}else{date = "curdate()"}
 		
-		var query = "SELECT * FROM login.registro where cod_pos = '" + Cod_Pos + "' and cast(log as date) = " + date;
+		if (maxRegistro == 1) {
+			var query = "SELECT * FROM login.registro where cod_Pos = '" + Cod_Pos + "' and cedula = " + cedula + " and cast(log as date) = current_date order by log desc limit 1"
+		}else{
+			var query = "SELECT * FROM login.registro where cod_pos = '" + Cod_Pos + "' and cast(log as date) = " + date;
+		}		
+
 		pool.query(query, function(err, rows, fields) {
 		  	if (err) throw err;
 		  	res.json(rows);
@@ -95,12 +118,25 @@ rutasAdmin.route('/racUpDate/:user')
 		  	if (err) throw err;
 		  	res.json(rows);
 		});
+	}else if (tipoUsuario === "coor") {
+		var query = "SELECT * FROM bd_cded_cde_pda.coordinadores_db where Correo = '" + email + "'";
+		pool.query(query, function(err, rows, fields) {
+		  	if (err) throw err;
+		  	res.json(rows);
+		});
+
+	}else if (tipoUsuario === "admin") {
+		var query = "SELECT * FROM bd_cded_cde_pda.administradores where Correo = '" + email + "'";
+		pool.query(query, function(err, rows, fields) {
+		  	if (err) throw err;
+		  	res.json(rows);
+		});
 	}
 })
 .put(function(req, res){
 	var put = req.body;
 	var tipoUsuario = req.params.user;
-	console.log(put);
+	//console.log(put);
 	if (tipoUsuario === "rac") {
 			pool.query('UPDATE login.asesores SET ? WHERE email = ?', [put, put.email] , 
 				function(err, rows, fields) {

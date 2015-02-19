@@ -14,7 +14,7 @@
 	var dataLocal;
 	$scope.datas = CdeList.query();
 	$scope.formulario = {};
-
+	console.log($scope.datas);
 	$scope.resetForms = function(){
 		//console.log('asdflennin');
 		$scope.alert = {};
@@ -45,7 +45,7 @@
 		$scope.alert.datosMal = 0;
 		$scope.alert.firsPass = 0;
 		
-		console.log($scope.formulario);
+		//console.log($scope.formulario);
 
 		if ($scope.formulario.pass == 'Tigo2015') {
 			$scope.alert.firsPass = 1;
@@ -55,6 +55,10 @@
 		$http.post(location.origin + '/login/checkUser/rac', $scope.formulario).
 		  success(function(data, status, headers, config) {
 		  	
+		  	// Clona los datos del asesor 
+		  	var infoRac = _.clone(data);
+		  	console.log(infoRac);
+
 		  	if (_.size(data) === 0) {
 		  		
 		  		$http.post(location.origin + '/login/checkUser/admin', $scope.formulario).		  			
@@ -82,24 +86,69 @@
 		  				}
 		  			});
 		  	}else{
+		  		console.log(data.cod_pos);
+		  				  		
 		  		if (data.cod_pos !== $scope.formulario.Tienda) {
 		  			var confirmar = confirm("Te estas registrando en un CDE diferente." +
 		  									"\n Se registrará como apoyo." +
 		  									"\n Preciona cancelar para cambiar de CDE.");
 		  			if (!confirmar) {return}
+		  			dataLocal.cod_pos_prestamo = data.cod_pos;
+		  			dataLocal.cde_prestamo = _.findWhere($scope.datas, {Cod_Pos: data.cod_pos}).Tienda;
+
+
 		  		};
-		  		$scope.keyShow = 1;
+
 		  		dataLocal.cod_pos = $scope.formulario.Tienda;
+		  		dataLocal.cedula = data.cedula;
 				dataLocal.email = data.email;
 				dataLocal.rol = "asesor";
 				dataLocal.in_out = $scope.formulario.inout;
 
 				dataLocal.key = data.clave.slice(0, 8);
-			
-		  		localStorage.setItem(data.email, JSON.stringify(dataLocal));
-		  		//console.log($scope.keyShow);
-		  		var url = "http://10.65.136.19:13013/cgi-bin/sendsms?to=" + data.celular + "&username=foo&password=bar&text=" + dataLocal.key + "&from=log" + dataLocal.in_out;
-		  		$http.get(url);
+
+				$http.get(location.origin + '/admin/registro?codpos=' + dataLocal.cod_pos + '&cedula=' + dataLocal.cedula + '&maxregistro=1')
+		  		.success(function(data, status, headers, config){
+
+		  			var estado = dataLocal.in_out == 'in' ? 'Entrada' : 'Salida';
+		  			var estadoOp = estado == 'Entrada' ? 'Salida' : 'Entrada'; // El estado invertido
+
+		  			if (_.size(data) > 0 ){
+		  				console.log(data[0].in_out); //// si son igulaes lanzar un alert
+		  				if (data[0].in_out == dataLocal.in_out) {
+		  					console.log("Ya te has registrado en el estado de '" + estado + "' por consistencia de la información debes seleccionar el estado de '" + estadoOp + "'");
+		  					alert("Ya te has registrado en el estado de '" + estado + "' por consistencia de la información debes seleccionar el estado de '" + estadoOp + "'");
+		  					return;
+		  				}else{
+
+		  					$scope.keyShow = 1;
+
+			  				localStorage.setItem(infoRac.email, JSON.stringify(dataLocal));
+					  		console.log(dataLocal);
+					  		var url = "http://10.65.136.19:13013/cgi-bin/sendsms?to=" + infoRac.celular + "&username=foo&password=bar&text=" + dataLocal.key + "&from=log" + dataLocal.in_out;
+					  		$http.get(url);
+		  				}		  			
+
+		  			}else{
+
+		  				// Si el la primera entrada del rac, tiene que ser 'IN' y no 'Out'
+		  				if ($scope.formulario.inout == 'out') {
+		  					alert("El primer registro del dia debe ser de 'Entrada'");
+		  					return;
+		  				};
+
+		  				$scope.keyShow = 1;
+
+		  				localStorage.setItem(infoRac.email, JSON.stringify(dataLocal));
+				  		console.log(dataLocal);
+				  		var url = "http://10.65.136.19:13013/cgi-bin/sendsms?to=" + infoRac.celular + "&username=foo&password=bar&text=" + dataLocal.key + "&from=log" + dataLocal.in_out;
+				  		$http.get(url);
+
+		  			}
+		  			
+		  		})
+		  		.error(function(data, status, headers, config) {});
+		  		
 		  	}		  	
 		  }).
 		  error(function(data, status, headers, config) {});
@@ -141,7 +190,7 @@
  	//$scope.id = $routeParams.id;
  	$scope.datas = Rac.query({codpos: $scope.codpos});
  	//$scope.datas = Rac.query({codpos: $scope.codpos, userid: $scope.id});
-
+ 	console.log($scope.datas);
  	//function init(){
  	$scope.dataLocal = JSON.parse(localStorage.getItem('admin')); 		
 	if ($scope.dataLocal == null) {
@@ -225,6 +274,8 @@
  .controller('registroCtrl', ['$scope', '$http', 'Registro', '$routeParams', '$location',
  								function($scope, $http, Registro, $routeParams, $location){
 
+ 	$scope.cerrarSesionAsesoresBtn = 1;
+
  	$scope.dataLocal = JSON.parse(localStorage.getItem('admin')); 		
 	if ($scope.dataLocal == null) {
 		$location.path('/'); return;
@@ -234,13 +285,23 @@
 
  	//$scope.registro = {}; 
 
- 	$scope.setRegistro = function(){
+ 	$scope.getRegistro = function(){
  		var fecha = moment($scope.fecha).format('YYYY-MM-DD');
 
  		Registro.query({codpos: $scope.codpos, date: fecha}, function(data){
  			$scope.datosRegistro = data;
- 			//console.log(data);
+
+ 			if (_.size(data)) {
+ 				$scope.cerrarSesionAsesoresBtn = 0;
+ 			}else{
+ 				$scope.cerrarSesionAsesoresBtn = 1;
+ 			}
+ 			console.log(data);
  		});
+ 	};
+
+ 	$scope.cerrarSesionAsesores = function(){
+ 		confirm("Se cerrará la cesión  de los asesores que la tienen abierta.");
  	};
 
  	$scope.cerrarSesion = function(){
@@ -284,11 +345,11 @@
 			var dataGet = {user: $scope.formulario.user,
 						  pass: $scope.formulario.oldpass};
 			
-			$http.post('http://10.66.6.241:3000/login/checkUser/' + $scope.formulario.tipouser, dataGet).
+			$http.post(location.origin + '/login/checkUser/' + $scope.formulario.tipouser, dataGet).
 			  success(function(data, status, headers, config) {
 			  	console.log(data);
 			  	if (data) {
-			  		$http.put('http://10.66.6.241:3000/admin/racUpDate/' + $scope.formulario.tipouser, dataUp).
+			  		$http.put(location.origin + '/admin/racUpDate/' + $scope.formulario.tipouser, dataUp).
 					  success(function(data, status, headers, config) {
 					  	if (data.affectedRows == 0) {
 					  		$scope.alert.datosMal = 1
@@ -327,8 +388,10 @@
 	$scope.alert = {};
 	$scope.formulario = {}
 	$scope.alert.datosMal = 0;
+	$scope.alert.infoSMS = 0;
+	$scope.mostrar = {formGenKey : 1};
 
-	$scope.resetPassForm = function(){
+	$scope.generateKey = function(){
 
 		console.log($scope.formulario);
 
@@ -337,35 +400,58 @@
 		var dataUp = {email: $scope.formulario.email,
 						pass: hash.toString().slice(0, 8)};
 
-		$http.put('http://10.66.6.241:3000/admin/racUpDate/' + $scope.formulario.tipouser, dataUp).
-			success(function(data, status, headers, config) {
-				if (data.affectedRows == 0) {
-					$scope.alert.datosMal = 1
-				
-				}else if (data.affectedRows == 1) {
+		$http.get(location.origin + '/admin/racUpDate/rac?email=' + $scope.formulario.email)
+			.success(function(data, status, headers, config) {
+			  	
+			  	console.log(data[0]);
+			  	
+			  	var url = "http://10.65.136.19:13013/cgi-bin/sendsms?to=" + data[0].celular + "&username=foo&password=bar&text=" + dataUp.pass + "&from=reset pass";
+			  	$http.get(url);
 
-					$http.get('http://10.66.6.241:3000/admin/racUpDate/rac?email=' + $scope.formulario.email)
-					  .success(function(data, status, headers, config) {
-					  	console.log(data[0]);
-					  	var url = "http://10.65.136.19:13013/cgi-bin/sendsms?to=" + data[0].celular + "&username=foo&password=bar&text=" + data[0].pass + "&from=reset pass";
-					  	$http.get(url);
+			  	localStorage.setItem(data[0].email + '-' + 'key', JSON.stringify(dataUp));
 
-					  	$scope.formulario = {};
+			  	$scope.mostrar.formGenKey = 0;
+			  	$scope.alert.infoSMS = 1;
+
+			  })
+			  .error(function(data, status, headers, config) {});
+
+	}
+
+	$scope.resetPassForm = function(){
+
+		var nameLocalStorage = $scope.formulario.email + '-' + 'key';
+		var dataUp = JSON.parse(localStorage.getItem(nameLocalStorage));
+
+		if (dataUp == null) {
+			$location.path('/resetpass'); return;
+		}
+
+		if (dataUp.pass ==  $scope.formulario2.pass) {
+
+			$http.put(location.origin + '/admin/racUpDate/' + $scope.formulario.tipouser, dataUp).
+				success(function(data, status, headers, config) {
+					if (data.affectedRows == 0) {
+
+						$scope.alert.datosMal = 1;
+					
+					}else if (data.affectedRows == 1) {
+
+						$scope.formulario = {};
+						$scope.formulario2 = {};
+						localStorage.removeItem(nameLocalStorage);
+
 						$("#cambioCorrecto").fadeIn("slow");
-						$("#cambioCorrecto").fadeOut(10000, function(){
+						$("#cambioCorrecto").fadeOut(5000, function(){
 							$location.path('/');
 							$scope.$apply();  	  			
 						}); // Sorry :(
-
-					  })
-					  .error(function(data, status, headers, config) {});
-					//var url = "http://10.65.136.19:13013/cgi-bin/sendsms?to=" + data.celular + "&username=foo&password=bar&text=" + dataLocal.key + "&from=log" + dataLocal.in_out;
-		  			//$http.get(url);
-				}
-			}).
-			error(function(data, status, headers, config) {
-				alert('Ocurrio un error, intenta de nuevo');
-			});
+					}
+				}).
+				error(function(data, status, headers, config) {
+					alert('Ocurrio un error, intenta de nuevo');
+				});
+		}
 		
 	};	
 }]);

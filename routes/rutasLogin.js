@@ -68,7 +68,7 @@ rutasLogin.route('/setRegistro')
 	var post = req.body;
 	
 	var query = pool.query('INSERT INTO login.registro SET ?', post , function(err, rows, fields) {
-	  	if (err) throw err;
+	  	if (err){res.status(400).json({status: '400'});return;}
 	  	res.json(rows);
 	});
 

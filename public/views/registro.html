@@ -2,7 +2,7 @@
 
 <h1>Registro</h1>
 
-<form ng-submit="setRegistro()" class="row">
+<form ng-submit="getRegistro()" class="row">
 	<div class="col-md-4 col-xs-8">
 		<input type="date" ng-model="fecha" required placeholder="Fecha. ej: 2015-12-06" class="form-control input-lg input-lg">
 	</div>
@@ -10,22 +10,27 @@
 		<button type="submit" class="btn btn-primary btn-lg">Ver registros</button>
 	</div>
 </form>
-
+	
 <table class="table table-striped table-hover table-responsive panel panel-default" style="margin-top: 10px;">
 	<thead>
 		<tr>
+			<th>Cédula</th>
 			<th>Email</th>
 			<th>Fecha de registro</th>
 			<th>Rol</th>
 			<th>Estado</th>
+			<th>CDE de préstamo</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="datoRegistro in datosRegistro">
+			<td>{{datoRegistro.cedula}}</td>
 			<td>{{datoRegistro.email}}</td>
 			<td>{{datoRegistro.log | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 			<td>{{datoRegistro.rol}}</td>
 			<td>{{datoRegistro.in_out}}</td>
+			<td>{{datoRegistro.cde_prestamo || 'Propio'}}</td>
 		</tr>
 	</tbody>
 </table>
+<button class="btn btn-danger pull-right" ng-disabled="cerrarSesionAsesoresBtn" ng-click="cerrarSesionAsesores()">Cerrar cesión de asesores</button>
