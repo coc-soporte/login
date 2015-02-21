@@ -3,8 +3,18 @@
 <div><h1>Listado de Rac CDE</h1></div>
 
 <div class="row">
-	<button class="btn btn-default" ng-click="clearForm()" data-toggle="modal" data-target="#modal-rac">Agregar Rac</button>
+	<div class="col-md-2">
+		<button class="btn btn-default" ng-click="clearForm()" data-toggle="modal" data-target="#modal-rac">Agregar Rac</button>
+	</div>
+	
+	<div class="form-group col-md-10">
+		<input type="text" required ng-model="searchText" class="form-control" id="" placeholder="Busca por cédula, usuario, nombre... etc">
+	</div>
+
 </div>
+
+
+
 <table class="table table-striped table-hover table-responsive panel panel-default">
 	<thead>
 		<tr>
@@ -13,17 +23,19 @@
 			<th>Nombre</th>
 			<th>Email</th>
 			<th>Celular</th>
+			<th>Rol</th>
 			<th>Estado</th>
 			<th>Agregado</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="rac in datas">
+		<tr ng-repeat="rac in datas | filter:searchText">
 			<td>{{rac.cedula}}</td>
 			<td>{{rac.usuario}}</td>
 			<td>{{rac.nombre}}</td>
 			<td>{{rac.email}}</td>
 			<td>{{rac.celular}}</td>
+			<td>{{rac.rol}}</td>
 			<td>{{rac.estado}}</td>
 			<td>{{rac.log | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 			<td><button class="btn btn-primary" ng-click="editForm(rac.id)" data-toggle="modal" data-target="#modal-rac">editar</button></td>

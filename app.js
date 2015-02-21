@@ -29,7 +29,7 @@ app.use('/check', rutasCheck);
 var checkSocket = require('./socket/checkSocket');
 checkSocket(io);
 //**************************
-
-http.listen(3000, function(){
-	console.log('Listen on Port 3000');
+var port = 3000;
+http.listen(port, function(){
+	console.log('Listen on Port ' + port);
 });

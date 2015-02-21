@@ -103,8 +103,27 @@ rutasAdmin.route('/registro')
 	}else{
 		res.status(404).json({status: '404'});
 	}
-});
+})
+.post(function(req, res){
+	var post = req.body;
+	console.log(post);
+	if (_.size(post) > 0) {
+			
+			var query = pool.query('INSERT INTO login.registro SET ?', post , function(err, rows, fields) {
+				if (err){
+					console.log(err);
+					res.status(400).json({status: '400'});
+					//console.log(err);
+					return;
+				}
 
+				res.json(rows);
+			});
+	}else{
+		res.status(404).json({status: '404'});
+	}
+});
+	
 rutasAdmin.route('/racUpDate/:user')
 .get(function(req, res){
 	
