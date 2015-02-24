@@ -28,7 +28,7 @@ rutasAdmin.route('/rac')
 		}
 		
 		pool.query(query, function(err, rows, fields) {
-		  	if (err) throw err;
+		  	if (err) {res.status(400).json({status: '400'});return;}
 		  	res.json(rows);
 		});
 	}else{
@@ -96,7 +96,7 @@ rutasAdmin.route('/registro')
 		}		
 
 		pool.query(query, function(err, rows, fields) {
-		  	if (err) throw err;
+		  	if (err) {res.status(400).json({status: '400'});return;}
 		  	res.json(rows);
 		});
 
@@ -106,7 +106,7 @@ rutasAdmin.route('/registro')
 })
 .post(function(req, res){
 	var post = req.body;
-	console.log(post);
+	//console.log(post);
 	if (_.size(post) > 0) {
 			
 			var query = pool.query('INSERT INTO login.registro SET ?', post , function(err, rows, fields) {
@@ -134,20 +134,20 @@ rutasAdmin.route('/racUpDate/:user')
 
 		var query = "SELECT * FROM login.asesores where email = '" + email + "'";
 		pool.query(query, function(err, rows, fields) {
-		  	if (err) throw err;
+		  	if (err) {res.status(400).json({status: '400'});return;}
 		  	res.json(rows);
 		});
 	}else if (tipoUsuario === "coor") {
 		var query = "SELECT * FROM bd_cded_cde_pda.coordinadores_db where Correo = '" + email + "'";
 		pool.query(query, function(err, rows, fields) {
-		  	if (err) throw err;
+		  	if (err) {res.status(400).json({status: '400'});return;}
 		  	res.json(rows);
 		});
 
 	}else if (tipoUsuario === "admin") {
 		var query = "SELECT * FROM bd_cded_cde_pda.administradores where Correo = '" + email + "'";
 		pool.query(query, function(err, rows, fields) {
-		  	if (err) throw err;
+		  	if (err) {res.status(400).json({status: '400'});return;}
 		  	res.json(rows);
 		});
 	}
@@ -186,6 +186,33 @@ rutasAdmin.route('/racUpDate/:user')
 
 	
 });
+
+rutasAdmin.route('/getOpenRac')
+.get(function(req, res){
+
+	var codpos = req.query.codpos;
+
+	if (codpos) {
+
+		var query = "SELECT id, PRI.cedula, PRI.log, Cod_Pos, PRI.email, PRI.key, rol, in_out, cod_pos_prestamo, cde_prestamo FROM login.registro AS PRI "
+						+ "JOIN (SELECT cedula, max(log) log, email FROM login.registro "
+						+ "where cod_Pos = " + codpos + " and cedula is not NULL "
+						+ "and cast(log as date) = curdate() "
+						+ "group by cedula, email) AS Q "
+					+ "ON PRI.cedula = q.cedula and PRI.log = Q.log "
+					+ "where in_out = 'in'";
+		pool.query(query, function(err, rows, fields) {
+		  	if (err) {res.status(400).json({status: '400'});return;}
+		  	res.json(rows);
+		});
+	}else{
+		res.status(400).json({status: '400'});
+	}
+
+});
+
+
+
 // rutasAdmin.route('/coorUpDate')
 // .put(function(req, res){
 // 	var put = req.body;

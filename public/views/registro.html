@@ -37,4 +37,8 @@
 		</tr>
 	</tbody>
 </table>
-<button class="btn btn-danger pull-right" ng-disabled="cerrarSesionAsesoresBtn" ng-click="cerrarSesionAsesores()">Cerrar cesión de asesores</button>
+<button class="btn btn-danger pull-right" ng-hide="cerrarSesionAsesoresBtn" ng-disabled="cerrarSesionAsesoresBtn" ng-click="cerrarSesionAsesores()">Cerrar cesión de asesores</button>
+
+<div class="alert alert-success" role="alert" id="ingresoCorrecto" style="display:none;margin-top: 20px;">
+	<h3 class="text-center">Realizado Correctamente</h3>
+</div>
