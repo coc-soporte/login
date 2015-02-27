@@ -91,7 +91,7 @@
 				if (data.cod_pos !== $scope.formulario.Tienda) {
 					var confirmar = confirm("Te estas registrando en un CDE diferente." +
 											"\n Se registrará como apoyo." +
-											"\n Preciona cancelar para cambiar de CDE.");
+											"\n Presiona cancelar para cambiar de CDE.");
 					if (!confirmar) {return}
 					dataLocal.cod_pos_prestamo = data.cod_pos;
 					dataLocal.cde_prestamo = _.findWhere($scope.datas, {Cod_Pos: data.cod_pos}).Tienda;
@@ -424,6 +424,23 @@
 		
 	};
 
+}])
+.controller('testServiceCtrl', ['$scope', '$http', function($scope, $http){
+	$scope.phones = "1000000";
+
+	//$scope.data = [{nombre: "ana", apellido: "pereira"},{nombre: "lennin", apellido: "pereira2"},{nombre: "Mauricio", apellido: "pereira3"}]
+	$scope.anita = function(){
+		$http.get(location.origin + '/check?codpos=' + $scope.phones).
+	  		success(function(data, status, headers, config) {
+		  		$scope.data = data;
+			    alert("Hola Test " + $scope.phones);
+				console.log($scope.data);
+			}).error(function(data, status, headers, config) {
+			    $scope.data = [];
+			    console.log(data);
+			});
+
+	};
 }])
 .controller('resetpassCtrl', ['$scope', '$http', 'Rac', '$routeParams', '$location', 
 									function($scope, $http, Rac, $routeParams, $location){

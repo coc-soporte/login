@@ -2,8 +2,8 @@
 
 /**
  * @ngdoc overview
- * @name appApp
- * @description
+ * @name TigoLog
+ * @description: Archivo de Configuración de las rutas, vistas y controladores la aplicación del lado del cliente.
  * # appApp
  *
  * Main module of the application.

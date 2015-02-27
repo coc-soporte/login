@@ -1,2 +1,7 @@
 <div>Hola</div>
-{{phones}}
+<input ng-model="phones" type="text">
+<button ng-click="anita()">push</button>
+
+<div ng-repeat="(key, value) in data">
+	{{value.nombre}} {{key}}
+</div>

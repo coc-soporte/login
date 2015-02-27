@@ -15,7 +15,16 @@ var pool = mysql.createPool({
 //----------------------------------------------
 rutasCheck.route('/')
 .get(function(req, res){
-	console.log('adsf');
+	
+	//var data = [{nombre: "ana", apellido: "pereira"},{nombre: "lennin", apellido: "pereira2"},{nombre: "Mauricio", apellido: "pereira3"}];
+	var codpos = req.query.codpos;
+	var query = "SELECT * FROM login.asesores where Cod_Pos = " + codpos;
+
+	pool.query(query, function(err, rows, fields) {
+	  	if (err){res.status(400).json({status: '400'});return;}
+	  	res.json(rows);
+	});
+
 });
 
 
