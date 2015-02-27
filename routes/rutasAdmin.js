@@ -92,11 +92,17 @@ rutasAdmin.route('/registro')
 		if (maxRegistro == 1) {
 			var query = "SELECT * FROM login.registro where cod_Pos = '" + Cod_Pos + "' and cedula = " + cedula + " and cast(log as date) = current_date order by log desc limit 1"
 		}else{
-			var query = "SELECT * FROM login.registro where cod_pos = '" + Cod_Pos + "' and cast(log as date) = " + date;
+			//var query = "SELECT * FROM login.registro where cod_pos = '" + Cod_Pos + "' and cast(log as date) = " + date;
+		
+			var query = "SELECT * FROM login.registro as reg " + 
+						"join (select cedula as cedula_, usuario, nombre from login.asesores) as ase " +
+						"on reg.cedula = ase.cedula_ " +
+						"where  reg.cod_pos = " + Cod_Pos + " and cast(reg.log as date) = " + date + " " +
+						"order by reg.log";
 		}		
 
 		pool.query(query, function(err, rows, fields) {
-		  	if (err) {res.status(400).json({status: '400'});return;}
+		  	if (err) {res.status(400).json(err);return;}
 		  	res.json(rows);
 		});
 

@@ -19,6 +19,7 @@
 	<thead>
 		<tr>
 			<th>Cédula</th>
+			<th>Nombre</th>
 			<th>Email</th>
 			<th>Fecha de registro</th>
 			<th>Rol</th>
@@ -29,6 +30,7 @@
 	<tbody>
 		<tr ng-repeat="datoRegistro in datosRegistro | filter:searchText">
 			<td>{{datoRegistro.cedula}}</td>
+			<td>{{datoRegistro.nombre}}</td>
 			<td>{{datoRegistro.email}}</td>
 			<td>{{datoRegistro.log | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 			<td>{{datoRegistro.rol}}</td>

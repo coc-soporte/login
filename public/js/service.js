@@ -8,18 +8,18 @@ angular.module('loginServices', ['ngResource'])
   }])
 
 .factory('CdeList', ['$resource', function($resource){
-    return $resource('http://10.66.6.241:3000/login/cdelist', {}, {
+    return $resource(location.origin +'/login/cdelist', {}, {
       query: {method:'GET', isArray:true}
     });
 }])
 
 .factory('Rac', ['$resource', function($resource){
-	return $resource('http://10.66.6.241:3000/admin/rac', {}, {
+	return $resource(location.origin + '/admin/rac', {}, {
       query: {method:'GET', params:{}, isArray:true}
     });
 }])
 .factory('Registro', ['$resource', function($resource){
-	return $resource('http://10.66.6.241:3000/admin/registro', {}, {
+	return $resource(location.origin + '/admin/registro', {}, {
       query: {method:'GET', params:{}, isArray:true}
     });
 }]);
